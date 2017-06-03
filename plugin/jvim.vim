@@ -6,7 +6,7 @@
 "#                                                                           #
 "=============================================================================
 
-if exists(g:JVimLoaded)
+if exists('g:JVimLoaded')
     finish
 endif
 
@@ -43,7 +43,6 @@ endif
 if !exists('g:JV_colors')
     let g:JV_colors=1
     let g:JV_red='GruvboxRedBold'
-
 endif
 " } ===
 
@@ -149,7 +148,7 @@ endif
 command! TrimFile silent! %s/\s\+$//g | echom 'Trailing Space(s) Trimmed'
 
 " sudo write current file
-cnoremap w!! w !sudo tee % >/dev/null   
+cnoremap w!! w !sudo tee % >/dev/null
 " } ==
 
 
@@ -172,10 +171,10 @@ endif
 
 
 
-nnoremap <C-w><Del> :close
-nnoremap <C-w><BS> :close
-nnoremap <C-w>| vsp
-nnoremap <C-w>- sp
+"nnoremap <C-w><Del> :close
+"nnoremap <C-w><BS> :close
+"nnoremap <C-w>| vsp
+"nnoremap <C-w>- sp
 
 
 
@@ -212,12 +211,7 @@ noremap <silent> <leader>/ :nohlsearch<CR>
 " Clipboard
 "=================================================================
 if has('clipboard')
-    if has('mac')
-        set clipboard=unnamed
-    else
-        set clipboard=unnamedplus   " Have Vim use system
-        clipboard
-    endif
+    set clipboard=unnamed
 endif
 
 
@@ -226,6 +220,7 @@ endif
 "=================================================================
 " Return to the last position in the file
 "=================================================================
+if !exists(
 augroup return_file_postion
     autocmd!
     au bufreadpost * if line("'\"") > 0 && line("'\"") <= line("$")
