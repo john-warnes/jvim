@@ -220,7 +220,6 @@ endif
 "=================================================================
 " Return to the last position in the file
 "=================================================================
-if !exists(
 augroup return_file_postion
     autocmd!
     au bufreadpost * if line("'\"") > 0 && line("'\"") <= line("$")
