@@ -21,4 +21,19 @@ Jvim
                                                     "folding
 
 
-    eturn to the last position in the file
+
+    Auto return to the last position in the file on open
+
+    To change windows size just click on sperator with mouse amd drag.
+
+    Create window vsplit <C-w>|
+    Create window hsplit <C-w>-
+
+    sudo save :w!!
+
+    Change tabs <C-PageUp> / <C-PageDown>
+
+
+    Now shows indent guides if using spaces for indent. F2 to toggle
+
+

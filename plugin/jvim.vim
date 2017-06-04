@@ -42,6 +42,12 @@ if !exists('g:JV_useSystemClipboard')
                                                     "for all of Vim
 endif
 
+if !exists('g:JV_IndentGuide')
+    let g:JV_IndentGuide = 1                        "Show indent guides when
+                                                    "using spaces F2 to toggle
+endif
+
+
 " } ===
 
 
@@ -58,10 +64,37 @@ endif
 "=============================================================================
 " Performance Options {
 "=============================================================================
-    set synmaxcol=1000      " Only syntax highlight 1000 columns right
+    set synmaxcol=1000          " Only syntax highlight 1000 columns right
     set undolevels=1000         " How many undo to remember
     set undoreload=5000         " How many lines to save for undo
+    set history=1000            " How many user command remember in hitorty
 
+" } ===
+
+
+"=============================================================================
+" Vim Options {
+"=============================================================================
+    set mouse=a
+
+" } ===
+
+
+"=============================================================================
+" Vim Spell {
+"=============================================================================
+    set spell
+    noremap == :normal! z=
+" } ===
+
+
+"=============================================================================
+" Tmux Support {
+"=============================================================================
+    if exists("$TMUX")
+        set ttymouse=xterm2
+        set mouse=a
+    endif
 " } ===
 
 
@@ -77,6 +110,12 @@ endif
 
     " Cycle Vim Folds
     nnoremap <tab><tab> za
+
+    " On file open, open any folds the cursor is in
+    augroup OpenCursorLine
+        autocmd!
+        autocmd BufReadPre * :normal! zv
+    augroup end
 " } ===
 
 
@@ -121,14 +160,9 @@ endif
 "    if !exists('g:no_vim_conceal') && has('conceal') && &enc=='utf-8'
 "
 "        " Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie
-"        function! CodePrettyColors()
-"            highlight clear Conceal
-"            highlight link Conceal GruvboxGray
-"        endfunction
 "
 "        function! CodePretty()
 "            call CodePrettyColors()
-"            let Spaces = &l:shiftwidth == 0 ? &l:tabstop : &l:shiftwidth
 "
 "            " Swap some charcters as prettier ones
 "            execute 'syntax match Operator "<=" conceal cchar=≤ contained containedin='.s:container
@@ -138,24 +172,47 @@ endif
 "            execute 'syntax match Operator /\w\@<=\^2/ conceal cchar=² contained containedin='.s:container
 "            execute 'syntax match Operator /\w\@<=\^3/ conceal cchar=³ contained containedin='.s:container
 "
-"            " Indent Guides
-"            if (s:CodePrettyShowIndent)
-"                execute 'syntax match Indent /\v^\s+/ containedin=ALL contains=IndentLevel'
-"                execute 'syntax match IndentLevel /\v^@<=\s(\s{'.(Spaces-1).'})@=/ conceal cchar=¦ contained containedin=Indent'
-"                execute 'syntax match IndentLevel /\v(^(\s{'.(Spaces).'})+)@<=\s(\s{'.(Spaces-1).'})@=/ conceal cchar=¦ contained containedin=Indent'
-"            endif
-"
-"            setlocal conceallevel=1
-"            nnoremap <silent> <F2> :let &conceallevel = ( &conceallevel == 1 ? 0 : 1 )<CR>
 "        endfunction
 "
 "        augroup code_prettyer
 "            autocmd!
 "            autocmd BufReadPost,FileReadPost,BufNewFile * call CodePretty()
-"            autocmd ColorScheme gruvbox call CodePrettyColors()
 "        augroup end
 "    endif
 "endif
+
+" } ===
+
+
+"=============================================================================
+" Spaces Indent Guide {
+"=============================================================================
+
+if !exists('g:no_vim_conceal') && has('conceal') && exists(g:JV_IndentGuide)
+
+    let g:IndentSize = &l:shiftwidth == 0 ? &l:tabstop : &l:shiftwidth
+
+    function! ShowIndents()
+            execute 'syntax match Indent /\v^\s+/ containedin=ALL contains=IndentLevel'
+            execute 'syntax match IndentLevel /\v^@<=\s(\s{'.(g:IndentSize-1).'})@=/ conceal cchar=¦ contained containedin=Indent'
+            execute 'syntax match IndentLevel /\v(^(\s{'.(g:IndentSize).'})+)@<=\s(\s{'.(g:IndentSize-1).'})@=/ conceal cchar=¦ contained containedin=Indent'
+
+            highlight clear Conceal |
+            highlight link Conceal GruvboxGray
+    endfunction
+
+    set conceallevel=1
+    nnoremap <silent> <F2> :let &conceallevel = ( &conceallevel == 1 ? 0 : 1 )<CR>
+
+    augroup codePretty
+        autocmd!
+        autocmd BufReadPost,BufNewFile * call ShowIndents()
+        autocmd ColorScheme gruvbox
+                    \ highlight clear Conceal |
+                    \ highlight link Conceal GruvboxGray
+    augroup end
+endif
+
 " } ===
 
 
@@ -165,8 +222,6 @@ endif
 if exists('s:UsePresistent_Undo') && has('persistent_undo') && exists("*mkdir")
     let &undodir= expand(vimDir.'/undo')
     silent! call mkdir(&undodir)      " Create dir if needed
-    set undolevels=1000         " How many undos
-    set undoreload=5000         " number of lines to save for undo
     set undofile                " Use a undofile
 endif
 " } ===
@@ -187,27 +242,21 @@ cnoremap w!! w !sudo tee % >/dev/null
 "=============================================================================
 
 " Mappings for Window/Buffer Control ========== {
-    set splitright
-    set splitbelow
+    "set splitright
+    "set splitbelow
     nnoremap <C-w><Del> :close<CR>
     nnoremap <C-w><BS> :close<CR>
-    nnoremap <C-w><Bar> :vnew<CR>
-    nnoremap <C-w>- :new<CR>
+    nnoremap <C-w><Bar> :set splitright<CR>:vnew<CR>:set nosplitright<CR>
+    nnoremap <C-w>- :set splitbelow<CR>:new<CR>:set nosplitbelow<CR>
 
-"    function! s:Lastwin()
-"        if (winnr('#') == winnr())
-"            echom "Bump"
-"        endif
-"        colorscheme gruvbox       
-"    endfunction
+"} ===
+
+" Mapping for Tabs Control ========== {
 "
-"    au WinEnter * call s:Lastwin()
-" } ===
-
-" Change Tabs
-"     <C-PageUp>    Built in next tab
-"     <C-PageDown>  Built in prev tab
-
+"  <C-PageUp>    Built in next tab
+"  <C-PageDown>  Built in prev tab
+    nnoremap <f><f> <C-w>gf
+"} ===
 
 " Mappings for Arrow Keys ========== {
 
@@ -224,15 +273,17 @@ cnoremap w!! w !sudo tee % >/dev/null
     nnoremap <C-Down> <C-w>j
 " } ===
 
-" Easier moving of code block indents Try to go into
-" visual mode (v), then select several lines of code here and
-" then press ``>`` several times.
-vnoremap < <gv
-vnoremap > >gv
+    " Easier moving of code block indents Try to go into
+    " visual mode (v), then select several lines of code here and
+    " then press ``>`` several times.
+    vnoremap < <gv
+    vnoremap > >gv
 
-" Clear current search highlight
-noremap <silent> <leader>/ :nohlsearch<CR>
-"} ===
+    " Clear current search highlight
+    nnoremap <silent> <leader>/ :nohlsearch<CR>
+    nnoremap <silent> <C-n> :nohlsearch<CR>
+
+    "} ===
 
 
 "=============================================================================
