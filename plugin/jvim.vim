@@ -76,7 +76,7 @@ endif
 " Vim Options {
 "=============================================================================
     set mouse=a
-
+    set noshowmode
 " } ===
 
 
@@ -154,16 +154,13 @@ endif
 
 
 "=============================================================================
-" Show some characters as prettier, Indent guides {
+" Show some characters as pretty {
 "=================================================================
-"if (s:CodePretty)
+"if exists(s:CodePretty)
 "    if !exists('g:no_vim_conceal') && has('conceal') && &enc=='utf-8'
 "
 "        " Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie
-"
 "        function! CodePretty()
-"            call CodePrettyColors()
-"
 "            " Swap some charcters as prettier ones
 "            execute 'syntax match Operator "<=" conceal cchar=≤ contained containedin='.s:container
 "            execute 'syntax match Operator ">=" conceal cchar=≥ contained containedin='.s:container
@@ -171,16 +168,10 @@ endif
 "            execute 'syntax match Operator /\s\@<=pi\s\@=/ conceal cchar=π contained containedin='.s:container
 "            execute 'syntax match Operator /\w\@<=\^2/ conceal cchar=² contained containedin='.s:container
 "            execute 'syntax match Operator /\w\@<=\^3/ conceal cchar=³ contained containedin='.s:container
-"
 "        endfunction
 "
-"        augroup code_prettyer
-"            autocmd!
-"            autocmd BufReadPost,FileReadPost,BufNewFile * call CodePretty()
-"        augroup end
 "    endif
 "endif
-
 " } ===
 
 
