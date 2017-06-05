@@ -228,7 +228,7 @@ cnoremap w!! w !sudo tee % >/dev/null
 
 
 "=============================================================================
-" Useful Mappings for none standard keys (Arrows etc)  {
+" Useful Mappings and Standard Keys (Arrows etc)  {
 "=============================================================================
 
 " Mappings for Window/Buffer Control ========== {
@@ -269,11 +269,18 @@ cnoremap w!! w !sudo tee % >/dev/null
     vnoremap < <gv
     vnoremap > >gv
 
-    " Clear current search highlight
+    " Clear Current Search Highlight
     nnoremap <silent> <leader>/ :nohlsearch<CR>
     nnoremap <silent> <C-n> :nohlsearch<CR>
 
-    "} ===
+" Spelling and Better Living ========== {
+    cnoremap W w
+    cnoremap W! w!
+    cnoremap Q q
+    cnoremap Q! q!
+"} ===
+"
+"} === end Mappings
 
 
 "=============================================================================
@@ -319,3 +326,4 @@ if !has('gui_running')
 endif
 " } ===
 
+"EOF
