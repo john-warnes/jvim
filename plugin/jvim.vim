@@ -179,7 +179,7 @@ endif
 " Spaces Indent Guide {
 "=============================================================================
 
-if !exists('g:no_vim_conceal') && has('conceal') && exists(g:JV_IndentGuide)
+if !exists('g:no_vim_conceal') && has('conceal') && exists('g:JV_IndentGuide')
 
     let g:IndentSize = &l:shiftwidth == 0 ? &l:tabstop : &l:shiftwidth
 
