@@ -1,13 +1,12 @@
-"=============================================================================
+"=========================================================================om
 "#               __ _   _ _ _ __ ___  _ __ ___    __     ___                 #
 "#              |_ \ \ / / | '_ ` _ \| '__/ __|  /  |   | _ |                #
 "#             ___| \ V /| | | | | | | | | (___   | | _ ||_||                #
 "#             \____|\_/ |_|_| |_| |_|_|  \___|   |_||_||___|                #
 "#                                                                           #
 "=============================================================================
-set nocompatible    " Make vim better!   (not compatible with vi)
 set encoding=utf-8
-
+scriptencoding utf-8
 "if exists('g:JVimLoaded')
 "    finish
 "endif
@@ -84,14 +83,14 @@ endif
 " Vim Spell {
 "=============================================================================
     set spell
-    noremap == :normal! z=
+    nnoremap == z=
 " } ===
 
 
 "=============================================================================
 " Tmux Support {
 "=============================================================================
-    if exists("$TMUX")
+    if exists('$TMUX')
         set ttymouse=xterm2
         set mouse=a
     endif
@@ -114,7 +113,7 @@ endif
     " On file open, open any folds the cursor is in
     augroup OpenCursorLine
         autocmd!
-        autocmd BufReadPre * :normal! zv
+        autocmd BufWinEnter * normal! zv
     augroup end
 " } ===
 
@@ -137,7 +136,7 @@ if (g:JV_showTrailing && &list)
 
     set listchars+=trail:·
     highlight clear SpecialKey
-    execute "highlight link SpecialKey" g:JV_red
+    execute 'highlight link SpecialKey' g:JV_red
 
     augroup JV_trailingSpaceColorFix
         autocmd!
@@ -210,8 +209,8 @@ endif
 "=============================================================================
 " Persistent_Undo {
 "=============================================================================
-if exists('s:UsePresistent_Undo') && has('persistent_undo') && exists("*mkdir")
-    let &undodir= expand(vimDir.'/undo')
+if exists('s:UsePresistent_Undo') && has('persistent_undo') && exists('*mkdir')
+    let &undodir= expand(g:vimDir.'/undo')
     silent! call mkdir(&undodir)      " Create dir if needed
     set undofile                " Use a undofile
 endif
@@ -311,7 +310,7 @@ augroup END
 " Testing Area for new stuff {
 "=============================================================================
 " Allow the menu in Term mode
-if !has("gui_running")
+if !has('gui_running')
     source $VIMRUNTIME/menu.vim
     set wildmenu
     set cpoptions-=<
