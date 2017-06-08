@@ -17,50 +17,68 @@ Plug 'john-warnes/jvim'
 - Mouse support for terminal vim
 - Use system clipboard for vim
 - Show trailing white space
-- Show EOL marked (off by defualt)
-- Presistent Undo (undo on a previously edited file)
-- Many helpful <Arrow Key> mapping for the new users
-- Same mapping support with regualer vim movment keys
+- Show EOL marked (off by default)
+- Show many hidden characters: Tabs, NBSP, Extends, Precedes
 - Show simple indent guide for <space> indented files
-- Many other useful key mapping
+- Persistent Undo (undo on a previously edited file)
+- Many helpful <Arrow Key> mapping for the new users
+    - Same mapping support with regular vim movement keys
+- Many other useful key mapping   
 
 ## Options
-Place options before you `Plug` line in vimrc
-Options shown with defualts
+Place options before your `Plug 'john-warnes/jvim'` line in vimrc
+Options shown with defaults
 ```
-g:JV_vimDir="$HOME/.vim"                  "Setup Vim dirctory
-g:JV_showTrailing = 1                     "Show Tailing Spaces
+g:JV_vimDir="$HOME/.vim"                  "Setup Vim Directory
+g:JV_showTrailing = 1                     "Show Trailing Spaces
 g:JV_showEol = 0                          "Show EOL marker
-g:JV_showIndentGuides = 1                 "Show indents
-g:JV_usePresistentUndo = 1                "Use presistent Undo
-g:JV_colorColumn = join(range(81,83),',') "Set long line guide
+g:JV_showIndentGuides = 1                 "Show Indents
+g:JV_usePresistentUndo = 1                "Use persistent Undo
+g:JV_colorColumn = join(range(81,83),',') "Set Long Line guide
 g:JV_red = 'GruvboxRedBold'               "Highlight link for Red
-g:JV_useSystemClipboard = 1               "Use system clipboard
+g:JV_useSystemClipboard = 1               "Use System Clipboard
 ```
 
 ## Commands
 
+### GUI menu
+`F4` Open Terminal version if the GUI menu
+- Use movement left and right or `<Tab>` to navagate
+- `<Enter>` to select
+- `<Esc>` to quit
+
+### File Commands
+`:TrimFile` to trim trailing white space
+`ff` open filename under cursor in new vsplit 
+`ft` open filename under cursor in new tab
+
+### Code Folding
+`<tab><tab>` to open and close a code fold
+or when cursor is over fold push left or right movement keys.
+
 ### Window Commands
-Create window vsplit <C-w>|
-Create window hsplit <C-w>-
-To change windows size just click on sperator with mouse amd drag.
+`<C-w><Del>` or `<C-w><BackSpace>` to close current window
+`<C-w>|` Create new vertical split in window
+`<C-w>-` Create new horizontal split in window
+Use the mouse for easy control over window splits
+- Click and drag on window separator.
 
 ### Tabs
-Change Tabs with '<C-PageUp>' and '<C-PageDown>'
+Change Tabs with `<C-PageUp>` and `<C-PageDown>`
 
 ### Saving
-':w!!' Save with sudo (in case you edited protected file and forgot)
+`:w!!`Save with sudo (in case you edited protected file and forgot)
 
 ### Indent Guide (Spaces for indents)
-'F2' to toggle on or off.
+`F2` to toggle on or off.
 
 ### Spelling Help
-== to autocorrect word under cursor
-z= to list possable corretions of word under cursor
-u  to undo
+`==` to autocorrect word under cursor
+`z=` to list possable corretions of word under cursor
+`u`  to undo
 
-Common CMD misspelling correction
-Q = q
-Q! = q!
-W = w
-W! = w1
+Common CMD misspelling mappings
+`:Q` becomes `q`
+`:Q!` becomes `q!`
+`:W` becomes `w`
+`:W!` becomes `w!`
