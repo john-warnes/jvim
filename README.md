@@ -1,7 +1,7 @@
 # JVim Plugin
 
 ## Installation
-Install this plugin as you would any other vim plugin 
+Install this plugin as you would any other vim plugin  
 Vundle example:
 ```
 Plugin 'john-warnes/jvim'
@@ -23,11 +23,11 @@ Plug 'john-warnes/jvim'
 - Persistent Undo (undo on a previously edited file)
 - Many helpful <Arrow Key> mapping for the new users
     - Same mapping support with regular vim movement keys
-- Many other useful key mapping   
+- Many other useful key mapping
 
 ## Options
-Place options before your `Plug 'john-warnes/jvim'` line in vimrc
-Options shown with defaults
+Place options before your `Plug 'john-warnes/jvim'` line in vimrc  
+Options shown with defaults  
 ```
 g:JV_vimDir="$HOME/.vim"                  "Setup Vim Directory
 g:JV_showTrailing = 1                     "Show Trailing Spaces
@@ -42,26 +42,26 @@ g:JV_useSystemClipboard = 1               "Use System Clipboard
 ## Commands
 
 ### GUI menu
-`F4` Open Terminal version if the GUI menu
-- Use movement left and right or `<Tab>` to navagate
-- `<Enter>` to select
-- `<Esc>` to quit
+`F4` Open Terminal version if the GUI menu  
+- Use movement left and right or `<Tab>` to navagate  
+- `<Enter>` to select  
+- `<Esc>` to quit  
 
 ### File Commands
-`:TrimFile` to trim trailing white space
-`ff` open filename under cursor in new vsplit 
-`ft` open filename under cursor in new tab
+`:TrimFile` to trim trailing white space  
+`ff` open filename under cursor in new vsplit  
+`ft` open filename under cursor in new tab  
 
 ### Code Folding
-`<tab><tab>` to open and close a code fold
-or when cursor is over fold push left or right movement keys.
+`<tab><tab>` to open and close a code fold  
+or when cursor is over fold push left or right movement keys  
 
 ### Window Commands
-`<C-w><Del>` or `<C-w><BackSpace>` to close current window
-`<C-w>|` Create new vertical split in window
-`<C-w>-` Create new horizontal split in window
-Use the mouse for easy control over window splits
-- Click and drag on window separator.
+`<C-w><Del>` or `<C-w><BackSpace>` to close current window  
+`<C-w>|` Create new vertical split in window  
+`<C-w>-` Create new horizontal split in window  
+Use the mouse for easy control over window splits  
+- Click and drag on window separator  
 
 ### Tabs
 Change Tabs with `<C-PageUp>` and `<C-PageDown>`
@@ -70,18 +70,17 @@ Change Tabs with `<C-PageUp>` and `<C-PageDown>`
 `:w!!` Save with sudo (in case you edited protected file and forgot)
 
 ### Spelling Help
-`==` to autocorrect word under cursor
-`z=` to list possible corrections of word under cursor
-`u`  to undo
+`==` to autocorrect word under cursor  
+`z=` to list possible corrections of word under cursor  
+`u`  to undo  
 
 Common CMD misspelling mappings
-`:Q` becomes `q`
-`:Q!` becomes `q!`
-`:W` becomes `w`
-`:W!` becomes `w!`
+`:Q` becomes `q`  
+`:Q!` becomes `q!`  
+`:W` becomes `w`  
+`:W!` becomes `w!`  
 
 ### Indent Guide (Spaces for indents)
-`F2` to toggle on or off
-
+`F2` to toggle on or off  
 ![Indent Guide Example](/_assets/Indet_Flip.gif "Indent Guides")
 
