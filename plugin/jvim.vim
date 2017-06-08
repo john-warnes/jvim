@@ -1,16 +1,21 @@
-"=========================================================================om
+"=============================================================================
 "#               __ _   _ _ _ __ ___  _ __ ___    __     ___                 #
 "#              |_ \ \ / / | '_ ` _ \| '__/ __|  /  |   | _ |                #
 "#             ___| \ V /| | | | | | | | | (___   | | _ ||_||                #
 "#             \____|\_/ |_|_| |_| |_|_|  \___|   |_||_||___|                #
 "#                                                                           #
 "=============================================================================
+
+
+"=============================================================================
+" Script Local Settings {
+"=============================================================================
 set encoding=utf-8
 scriptencoding utf-8
-"if exists('g:JVimLoaded')
-"    finish
-"endif
-"let g:JVimLoaded=1
+setlocal foldmarker={,}
+setlocal foldmethod=marker
+" } ===
+
 
 "=============================================================================
 " JVim Settings {
@@ -23,9 +28,6 @@ if !exists('g:JV_showTrailing')
 endif
 if !exists('g:JV_showEol')
     let g:JV_showEol = 0                            "Show EOL marker
-endif
-if !exists('g:JV_showIndentGuides')
-    let g:JV_showIndentGuides = 1                   "Show indents
 endif
 if !exists('g:JV_usePresistentUndo')
     let g:JV_usePresistentUndo = 1                  "Use presistent Undo
@@ -40,7 +42,6 @@ if !exists('g:JV_useSystemClipboard')
     let g:JV_useSystemClipboard = 1                 "Try to use system clipboard
                                                     "for all of Vim
 endif
-
 if !exists('g:JV_IndentGuide')
     let g:JV_IndentGuide = 1                        "Show indent guides when
                                                     "using spaces F2 to toggle
@@ -175,24 +176,22 @@ endif
 
 
 "=============================================================================
-" Spaces Indent Guide {
+" Indent Guides for spaces {
 "=============================================================================
 
 if !exists('g:no_vim_conceal') && has('conceal') && exists('g:JV_IndentGuide')
 
-    let g:IndentSize = &l:shiftwidth == 0 ? &l:tabstop : &l:shiftwidth
-
     function! ShowIndents()
-            execute 'syntax match Indent /\v^\s+/ containedin=ALL contains=IndentLevel'
-            execute 'syntax match IndentLevel /\v^@<=\s(\s{'.(g:IndentSize-1).'})@=/ conceal cchar=¦ contained containedin=Indent'
-            execute 'syntax match IndentLevel /\v(^(\s{'.(g:IndentSize).'})+)@<=\s(\s{'.(g:IndentSize-1).'})@=/ conceal cchar=¦ contained containedin=Indent'
+            let b:IndentSize = &shiftwidth == 0 ? &tabstop : &shiftwidth
+            execute 'syntax match Indent /^ \+/ containedin=ALL contains=IndentLevel'
+            execute 'syntax match IndentLevel /\v(^( {'.(-b:IndentSize).'})+)@<= ( {0,'.(b:IndentSize-1).'})@=/ conceal cchar=¦ containedin=Indent contains=none'
 
-            highlight clear Conceal |
+            highlight clear Conceal
             highlight link Conceal GruvboxGray
     endfunction
 
-    set conceallevel=1
-    nnoremap <silent> <F2> :let &conceallevel = ( &conceallevel == 1 ? 0 : 1 )<CR>
+    set conceallevel=2
+    nnoremap <silent> <F2> :let &conceallevel = ( &conceallevel == 2 ? 0 : 2 )<CR>
 
     augroup codePretty
         autocmd!
