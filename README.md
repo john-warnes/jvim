@@ -55,7 +55,6 @@ g:JV_useSystemClipboard = 1               "Use System Clipboard
 ### Code Folding
 `<tab><tab>` to open and close a code fold
 or when cursor is over fold push left or right movement keys.
-![Code Folding Example](/_assets/Indet_Flip.gif "Code Folding")
 
 ### Window Commands
 `<C-w><Del>` or `<C-w><BackSpace>` to close current window
@@ -68,14 +67,11 @@ Use the mouse for easy control over window splits
 Change Tabs with `<C-PageUp>` and `<C-PageDown>`
 
 ### Saving
-`:w!!`Save with sudo (in case you edited protected file and forgot)
-
-### Indent Guide (Spaces for indents)
-`F2` to toggle on or off.
+`:w!!` Save with sudo (in case you edited protected file and forgot)
 
 ### Spelling Help
 `==` to autocorrect word under cursor
-`z=` to list possable corretions of word under cursor
+`z=` to list possible corrections of word under cursor
 `u`  to undo
 
 Common CMD misspelling mappings
@@ -83,3 +79,8 @@ Common CMD misspelling mappings
 `:Q!` becomes `q!`
 `:W` becomes `w`
 `:W!` becomes `w!`
+
+### Indent Guide (Spaces for indents)
+`F2` to toggle on or off.
+![Indent Guide Example](/_assets/Indet_Flip.gif "Indent Guides")
+
