@@ -235,8 +235,8 @@ cnoremap w!! w !sudo tee % >/dev/null
     "set splitbelow
     nnoremap <C-w><Del> :close<CR>
     nnoremap <C-w><BS> :close<CR>
-    nnoremap <C-w><Bar> :set splitright<CR>:vnew<CR>:set nosplitright<CR>
-    nnoremap <C-w>- :set splitbelow<CR>:new<CR>:set nosplitbelow<CR>
+    nnoremap <silent> <C-w><Bar> :set splitright<CR>:vnew<CR>:set nosplitright<CR>
+    nnoremap <silent> <C-w>- :set splitbelow<CR>:new<CR>:set nosplitbelow<CR>
 
 "} ===
 
@@ -244,7 +244,11 @@ cnoremap w!! w !sudo tee % >/dev/null
 "
 "  <C-PageUp>    Built in next tab
 "  <C-PageDown>  Built in prev tab
-    nnoremap <f><f> <C-w>gf
+"  <ft> open file in new tab
+"  <ff> open file in new v split window
+    nnoremap ft <C-w>gf
+    nnoremap <silent> ff :set splitright<CR><C-w>vgf<CR>:set nosplitright<CR>
+  
 "} ===
 
 " Mappings for Arrow Keys ========== {
