@@ -81,6 +81,7 @@ Common CMD misspelling mappings
 `:W!` becomes `w!`
 
 ### Indent Guide (Spaces for indents)
-`F2` to toggle on or off.
+`F2` to toggle on or off
+
 ![Indent Guide Example](/_assets/Indet_Flip.gif "Indent Guides")
 
