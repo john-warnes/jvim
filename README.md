@@ -55,6 +55,7 @@ g:JV_useSystemClipboard = 1               "Use System Clipboard
 ### Code Folding
 `<tab><tab>` to open and close a code fold
 or when cursor is over fold push left or right movement keys.
+![Code Folding Example](/_assets/Indet_Flip.gif "Code Folding")
 
 ### Window Commands
 `<C-w><Del>` or `<C-w><BackSpace>` to close current window
