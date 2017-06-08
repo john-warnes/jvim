@@ -12,8 +12,6 @@
 "=============================================================================
 set encoding=utf-8
 scriptencoding utf-8
-setlocal foldmarker={,}
-setlocal foldmethod=marker
 " } ===
 
 
@@ -47,27 +45,22 @@ if !exists('g:JV_IndentGuide')
                                                     "using spaces F2 to toggle
 endif
 
-
 " } ===
 
 
 "=============================================================================
 " Help and notes {
 "=============================================================================
-
-" === Commands ===
-" :TrimFile " Remove all trailing writespace in file
-"
-" } ===
+" Check ../README.MD
 
 
 "=============================================================================
 " Performance Options {
 "=============================================================================
     set synmaxcol=1000          " Only syntax highlight 1000 columns right
-    set undolevels=1000         " How many undo to remember
+    set undolevels=2500         " How many undo to remember
     set undoreload=5000         " How many lines to save for undo
-    set history=1000            " How many user command remember in hitorty
+    set history=5000            " How many user command remember in history
 
 " } ===
 
@@ -231,8 +224,6 @@ cnoremap w!! w !sudo tee % >/dev/null
 "=============================================================================
 
 " Mappings for Window/Buffer Control ========== {
-    "set splitright
-    "set splitbelow
     nnoremap <C-w><Del> :close<CR>
     nnoremap <C-w><BS> :close<CR>
     nnoremap <silent> <C-w><Bar> :set splitright<CR>:vnew<CR>:set nosplitright<CR>
@@ -292,8 +283,9 @@ cnoremap w!! w !sudo tee % >/dev/null
 if has('clipboard') && exists('g:JV_useSystemClipboard')
     if has('mac')
         set clipboard=unnamed
+    else
+        set clipboard=unnamedplus
     endif
-     set clipboard=unnamedplus
 endif
 " } ===
 
