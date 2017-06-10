@@ -37,8 +37,8 @@ endif
 if !exists('g:JV_showEol')
     let g:JV_showEol = 0                            "Show EOL marker
 endif
-if !exists('g:JV_usePresistentUndo')
-    let g:JV_usePresistentUndo = 1                  "Use presistent Undo
+if !exists('g:JV_usePresistent_Undo')
+    let g:JV_usePresistent_Undo = 1                  "Use presistent Undo
 endif
 if !exists('g:JV_colorcolumn')
     let g:JV_colorColumn = join(range(81,83),',')   "Set long line guide
@@ -155,7 +155,7 @@ endif
 "=============================================================================
 " Show some characters as pretty {
 "=================================================================
-"if exists(s:CodePretty)
+"if exists(g:CodePretty)
 "    if !exists('g:no_vim_conceal') && has('conceal') && &enc=='utf-8'
 "
 "        " Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie
@@ -207,8 +207,8 @@ endif
 "=============================================================================
 " Persistent_Undo {
 "=============================================================================
-if exists('s:UsePresistent_Undo') && has('persistent_undo') && exists('*mkdir')
-    let &undodir= expand(g:vimDir.'/undo')
+if exists('g:JV_usePresistent_Undo') && has('persistent_undo')
+    let &undodir= expand($DOTFILES.'/vim/undo')
     silent! call mkdir(&undodir)                " Create dir if needed
     set undofile                                " Use a undofile
 endif
