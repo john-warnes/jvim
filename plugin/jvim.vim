@@ -1,17 +1,27 @@
-"=============================================================================
-"#               __ _   _ _ _ __ ___  _ __ ___    __     ___                 #
-"#              |_ \ \ / / | '_ ` _ \| '__/ __|  /  |   | _ |                #
-"#             ___| \ V /| | | | | | | | | (___   | | _ ||_||                #
-"#             \____|\_/ |_|_| |_| |_|_|  \___|   |_||_||___|                #
-"#                                                                           #
-"=============================================================================
-
-
-"=============================================================================
-" Script Local Settings {
-"=============================================================================
+"
+"          gg                gg
+"          ""                ""
+"          gg     ggg    gg  gg    ,ggg,,ggg,,ggg,
+"          8I    d8"Yb   88bg88   ,8" "8P" "8P" "8,
+"         ,8I   dP  I8   8I  88   I8   8I   8I   8I
+"       _,d8I ,dP   I8, ,8I_,88,_,dP   8I   8I   Yb,
+"     888P"8888"     "Y8P" 8P""Y88P'   8I   8I   `Y8
+"--------,d8I'------------------------------------------
+"      ,dP'8I
+"     ,8"  8I
+"     I8   8I
+"     `8, ,8I
+"      `Y8P"
+"
+"=================================================================
+" Local file settings {
+"=================================================================
 set encoding=utf-8
 scriptencoding utf-8
+setlocal foldmarker={,}
+setlocal foldmethod=marker
+setlocal foldcolumn=1
+setlocal keywordprg=:help
 " } ===
 
 
@@ -97,12 +107,8 @@ endif
     set foldminlines=3
     set foldmethod=syntax
 
-    setlocal foldmarker={,}
-    setlocal foldmethod=marker
-    setlocal foldcolumn=1
-
     " Cycle Vim Folds
-    nnoremap <tab><tab> za
+    nnoremap tt za
 
     " On file open, open any folds the cursor is in
     augroup OpenCursorLine
@@ -203,8 +209,8 @@ endif
 "=============================================================================
 if exists('s:UsePresistent_Undo') && has('persistent_undo') && exists('*mkdir')
     let &undodir= expand(g:vimDir.'/undo')
-    silent! call mkdir(&undodir)      " Create dir if needed
-    set undofile                " Use a undofile
+    silent! call mkdir(&undodir)                " Create dir if needed
+    set undofile                                " Use a undofile
 endif
 " } ===
 
@@ -239,7 +245,7 @@ cnoremap w!! w !sudo tee % >/dev/null
 "  <ff> open file in new v split window
     nnoremap ft <C-w>gf
     nnoremap <silent> ff :set splitright<CR><C-w>vgf<CR>:set nosplitright<CR>
-  
+
 "} ===
 
 " Mappings for Arrow Keys ========== {
