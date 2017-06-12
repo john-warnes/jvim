@@ -109,6 +109,7 @@ endif
 
     " Cycle Vim Folds
     nnoremap tt za
+    nnoremap <Tab><Tab> za
 
     " On file open, open any folds the cursor is in
     augroup OpenCursorLine
@@ -261,6 +262,11 @@ cnoremap w!! w !sudo tee % >/dev/null
     nnoremap <C-Left> <C-w>h
     nnoremap <C-Up> <C-w>k
     nnoremap <C-Down> <C-w>j
+    
+    nnoremap <Leader><Right> <C-w>l
+    nnoremap <Leader><Left> <C-w>h
+    nnoremap <Leader><Up> <C-w>k
+    nnoremap <Leader><Down> <C-w>j
 " } ===
 
     " Easier moving of code block indents Try to go into
