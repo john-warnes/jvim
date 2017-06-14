@@ -38,10 +38,11 @@ if !exists('g:JV_showEol')
     let g:JV_showEol = 0                            "Show EOL marker
 endif
 if !exists('g:JV_usePresistent_Undo')
-    let g:JV_usePresistent_Undo = 1                  "Use presistent Undo
+    let g:JV_usePresistent_Undo = 1                 "Use presistent Undo
 endif
-if !exists('g:JV_colorcolumn')
+if !exists('g:JV_colorColumn')
     let g:JV_colorColumn = join(range(81,83),',')   "Set long line guide
+"    let g:JV_colorColumn = 8                        "Set long line guide
 endif
 if !exists('g:JV_red')
     let g:JV_red = 'GruvboxRedBold'                 "Highlight link for Red
@@ -67,10 +68,10 @@ endif
 "=============================================================================
 " Performance Options {
 "=============================================================================
-    set synmaxcol=1000          " Only syntax highlight 1000 columns right
-    set undolevels=2500         " How many undo to remember
+    set synmaxcol=500          " Only syntax highlight 1000 columns right
+    set undolevels=5000         " How many undo to remember
     set undoreload=5000         " How many lines to save for undo
-    set history=5000            " How many user command remember in history
+    set history=8000            " How many user command remember in history
 
 " } ===
 
@@ -101,6 +102,34 @@ endif
 " } ===
 
 
+if exists('g:JV_colorColumn')
+  let &colorcolumn=g:JV_colorColumn
+endif
+
+"=============================================================================
+" Fix Quickfix Window Height {
+"=============================================================================
+" :cw to open window
+function! AdjustWindowHeight(minheight, maxheight)
+   let l:l = 1
+   let l:n_lines = 0
+   let l:w_width = winwidth(0)
+   while l:l <= line('$')
+       " number to float for division
+       let l:l_len = strlen(getline(l:l)) + 0.0
+       let l:line_width = l:l_len/l:w_width
+       let l:n_lines += float2nr(ceil(l:line_width))
+       let l:l += 1
+   endw
+   exe max([min([l:n_lines, a:maxheight]), a:minheight]) . 'wincmd _'
+endfunction
+
+augroup QuickFixWin
+    au FileType qf call AdjustWindowHeight(3, 10)
+augroup end
+" } ===
+
+
 "=============================================================================
 " Vim Folding {
 "=============================================================================
@@ -114,7 +143,8 @@ endif
     " On file open, open any folds the cursor is in
     augroup OpenCursorLine
         autocmd!
-        autocmd BufWinEnter * normal! zv
+        autocmd BufWinEnter * if &l:modifiable | normal! zR | endif  "open all folds
+        autocmd BufWinEnter * if &l:modifiable | normal! zv | endif  "open only fold with cursor
     augroup end
 " } ===
 
@@ -262,7 +292,7 @@ cnoremap w!! w !sudo tee % >/dev/null
     nnoremap <C-Left> <C-w>h
     nnoremap <C-Up> <C-w>k
     nnoremap <C-Down> <C-w>j
-    
+
     nnoremap <Leader><Right> <C-w>l
     nnoremap <Leader><Left> <C-w>h
     nnoremap <Leader><Up> <C-w>k
