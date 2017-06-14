@@ -14,14 +14,10 @@
 "      `Y8P"
 "
 "=================================================================
-" Local file settings {
+" TOP Local file settings {
 "=================================================================
 set encoding=utf-8
 scriptencoding utf-8
-setlocal foldmarker={,}
-setlocal foldmethod=marker
-setlocal foldcolumn=1
-setlocal keywordprg=:help
 " } ===
 
 
@@ -29,7 +25,8 @@ setlocal keywordprg=:help
 " JVim Settings {
 "=============================================================================
 if !exists('g:JV_vimDir')
-    let g:JV_vimDir="$HOME/.vim"                    "Setup Vim dirctory
+    "let g:JV_vimDir="$HOME/.vim"                    "Setup Vim directory
+    let g:JV_vimDIR= expand($HOME.'/vim')
 endif
 if !exists('g:JV_showTrailing')
     let g:JV_showTrailing = 1                       "Show Tailing Spaces
@@ -38,22 +35,22 @@ if !exists('g:JV_showEol')
     let g:JV_showEol = 0                            "Show EOL marker
 endif
 if !exists('g:JV_usePresistent_Undo')
-    let g:JV_usePresistent_Undo = 1                 "Use presistent Undo
+    let g:JV_usePresistent_Undo = 1                 "Use persistent Undo
 endif
 if !exists('g:JV_colorColumn')
     let g:JV_colorColumn = join(range(81,83),',')   "Set long line guide
-"    let g:JV_colorColumn = 8                        "Set long line guide
+    "let g:JV_colorColumn = 8
 endif
 if !exists('g:JV_red')
     let g:JV_red = 'GruvboxRedBold'                 "Highlight link for Red
 endif
 if !exists('g:JV_useSystemClipboard')
     let g:JV_useSystemClipboard = 1                 "Try to use system clipboard
-                                                    "for all of Vim
+    "for all of Vim
 endif
 if !exists('g:JV_IndentGuide')
     let g:JV_IndentGuide = 1                        "Show indent guides when
-                                                    "using spaces F2 to toggle
+    "using spaces F2 to toggle
 endif
 
 " } ===
@@ -68,10 +65,10 @@ endif
 "=============================================================================
 " Performance Options {
 "=============================================================================
-    set synmaxcol=500          " Only syntax highlight 1000 columns right
-    set undolevels=5000         " How many undo to remember
-    set undoreload=5000         " How many lines to save for undo
-    set history=8000            " How many user command remember in history
+set synmaxcol=500          " Only syntax highlight 1000 columns right
+set undolevels=5000         " How many undo to remember
+set undoreload=5000         " How many lines to save for undo
+set history=8000            " How many user command remember in history
 
 " } ===
 
@@ -79,27 +76,27 @@ endif
 "=============================================================================
 " Vim Options {
 "=============================================================================
-    set mouse=a
-    set noshowmode
-    set autoread
+set mouse=a
+set noshowmode
+set autoread
 " } ===
 
 
 "=============================================================================
 " Vim Spell {
 "=============================================================================
-    set spell
-    nnoremap == 1z=
+set spell
+nnoremap == 1z=
 " } ===
 
 
 "=============================================================================
 " Tmux Support {
 "=============================================================================
-    if exists('$TMUX')
-        set ttymouse=xterm2
-        set mouse=a
-    endif
+if exists('$TMUX')
+    set ttymouse=xterm2
+    set mouse=a
+endif
 " } ===
 
 
@@ -107,7 +104,7 @@ endif
 " Color Column Support {
 "=============================================================================
 if exists('g:JV_colorColumn')
-  let &colorcolumn=g:JV_colorColumn
+    let &colorcolumn=g:JV_colorColumn
 endif
 " } ===
 
@@ -117,17 +114,17 @@ endif
 "=============================================================================
 " :cw to open window
 function! AdjustWindowHeight(minheight, maxheight)
-   let l:l = 1
-   let l:n_lines = 0
-   let l:w_width = winwidth(0)
-   while l:l <= line('$')
-       " number to float for division
-       let l:l_len = strlen(getline(l:l)) + 0.0
-       let l:line_width = l:l_len/l:w_width
-       let l:n_lines += float2nr(ceil(l:line_width))
-       let l:l += 1
-   endw
-   exe max([min([l:n_lines, a:maxheight]), a:minheight]) . 'wincmd _'
+    let l:l = 1
+    let l:n_lines = 0
+    let l:w_width = winwidth(0)
+    while l:l <= line('$')
+        " number to float for division
+        let l:l_len = strlen(getline(l:l)) + 0.0
+        let l:line_width = l:l_len/l:w_width
+        let l:n_lines += float2nr(ceil(l:line_width))
+        let l:l += 1
+    endwhile
+    exe max([min([l:n_lines, a:maxheight]), a:minheight]) . 'wincmd _'
 endfunction
 
 augroup QuickFixWin
@@ -139,19 +136,24 @@ augroup end
 "=============================================================================
 " Vim Folding {
 "=============================================================================
-    set foldminlines=3
-    set foldmethod=syntax
+set foldminlines=3
+set foldmethod=syntax
+setlocal foldmarker={,}
+setlocal foldmethod=marker
+setlocal foldcolumn=1
+setlocal keywordprg=:help
 
-    " Cycle Vim Folds
-    nnoremap tt za
-    nnoremap <Tab><Tab> za
+" Cycle Vim Folds
 
-    " On file open, open any folds the cursor is in
-    augroup OpenCursorLine
-        autocmd!
-"        autocmd BufWinEnter * if &l:modifiable | normal! zR | endif  "open all folds
-        autocmd BufWinEnter * if &l:modifiable | normal! zv | endif  "open only fold with cursor
-    augroup end
+nnoremap tt za
+nnoremap <Tab><Tab> za
+
+" On file open, open any folds the cursor is in
+augroup OpenCursorLine
+    autocmd!
+    autocmd BufWinEnter * if (&l:modifiable) | normal! zR | endif  "open all folds
+    autocmd BufWinEnter * if (&l:modifiable) | normal! zv | endif  "open only fold with cursor
+augroup end
 " } ===
 
 
@@ -214,12 +216,12 @@ endif
 if !exists('g:no_vim_conceal') && has('conceal') && exists('g:JV_IndentGuide')
 
     function! ShowIndents()
-            let b:IndentSize = &shiftwidth == 0 ? &tabstop : &shiftwidth
-            execute 'syntax match Indent /^ \+/ containedin=ALL contains=IndentLevel'
-            execute 'syntax match IndentLevel /\v(^( {'.(-b:IndentSize).'})+)@<= ( {0,'.(b:IndentSize-1).'})@=/ conceal cchar=¦ containedin=Indent contains=none'
+        let b:IndentSize = &shiftwidth == 0 ? &tabstop : &shiftwidth
+        execute 'syntax match Indent /^ \+/ containedin=ALL contains=IndentLevel'
+        execute 'syntax match IndentLevel /\v(^( {'.(-b:IndentSize).'})+)@<= ( {0,'.(b:IndentSize-1).'})@=/ conceal cchar=¦ containedin=Indent contains=none'
 
-            highlight clear Conceal
-            highlight link Conceal GruvboxGray
+        highlight clear Conceal
+        highlight link Conceal GruvboxGray
     endfunction
 
     set conceallevel=2
@@ -263,10 +265,10 @@ cnoremap w!! w !sudo tee % >/dev/null
 "=============================================================================
 
 " Mappings for Window/Buffer Control ========== {
-    nnoremap <C-w><Del> :close<CR>
-    nnoremap <C-w><BS> :close<CR>
-    nnoremap <silent> <C-w><Bar> :set splitright<CR>:vnew<CR>:set nosplitright<CR>
-    nnoremap <silent> <C-w>- :set splitbelow<CR>:new<CR>:set nosplitbelow<CR>
+nnoremap <C-w><Del> :close<CR>
+nnoremap <C-w><BS> :close<CR>
+nnoremap <silent> <C-w><Bar> :set splitright<CR>:vnew<CR>:set nosplitright<CR>
+nnoremap <silent> <C-w>- :set splitbelow<CR>:new<CR>:set nosplitbelow<CR>
 
 "} ===
 
@@ -276,46 +278,46 @@ cnoremap w!! w !sudo tee % >/dev/null
 "  <C-PageDown>  Built in prev tab
 "  <ft> open file in new tab
 "  <ff> open file in new v split window
-    nnoremap ft <C-w>gf
-    nnoremap <silent> ff :set splitright<CR><C-w>vgf<CR>:set nosplitright<CR>
+nnoremap ft <C-w>gf
+nnoremap <silent> ff :set splitright<CR><C-w>vgf<CR>:set nosplitright<CR>
 
 "} ===
 
 " Mappings for Arrow Keys ========== {
 
 " Insert mode
-    inoremap <C-Right> <Esc><C-w>li
-    inoremap <C-Left> <Esc><C-w>hi
-    inoremap <C-Up> <Esc><C-w>ki
-    inoremap <C-Down> <Esc><C-w>ji
+inoremap <C-Right> <Esc><C-w>li
+inoremap <C-Left> <Esc><C-w>hi
+inoremap <C-Up> <Esc><C-w>ki
+inoremap <C-Down> <Esc><C-w>ji
 
 " Normal mode
-    nnoremap <C-Right> <C-w>l
-    nnoremap <C-Left> <C-w>h
-    nnoremap <C-Up> <C-w>k
-    nnoremap <C-Down> <C-w>j
+nnoremap <C-Right> <C-w>l
+nnoremap <C-Left> <C-w>h
+nnoremap <C-Up> <C-w>k
+nnoremap <C-Down> <C-w>j
 
-    nnoremap <Leader><Right> <C-w>l
-    nnoremap <Leader><Left> <C-w>h
-    nnoremap <Leader><Up> <C-w>k
-    nnoremap <Leader><Down> <C-w>j
+nnoremap <Leader><Right> <C-w>l
+nnoremap <Leader><Left> <C-w>h
+nnoremap <Leader><Up> <C-w>k
+nnoremap <Leader><Down> <C-w>j
 " } ===
 
-    " Easier moving of code block indents Try to go into
-    " visual mode (v), then select several lines of code here and
-    " then press ``>`` several times.
-    vnoremap < <gv
-    vnoremap > >gv
+" Easier moving of code block indents Try to go into
+" visual mode (v), then select several lines of code here and
+" then press ``>`` several times.
+vnoremap < <gv
+vnoremap > >gv
 
-    " Clear Current Search Highlight
-    nnoremap <silent> <leader>/ :nohlsearch<CR>
-    nnoremap <silent> <C-n> :nohlsearch<CR>
+" Clear Current Search Highlight
+nnoremap <silent> <leader>/ :nohlsearch<CR>
+nnoremap <silent> <C-n> :nohlsearch<CR>
 
 " Spelling and Better Living ========== {
-    cnoremap W w
-    cnoremap W! w!
-    cnoremap Q q
-    cnoremap Q! q!
+cnoremap W w
+cnoremap W! w!
+cnoremap Q q
+cnoremap Q! q!
 "} ===
 "
 "} === end Mappings
@@ -348,7 +350,7 @@ augroup END
 "=============================================================================
 " Plugin Help Commands {
 "=============================================================================
-    noremap <S-F5> :source %<CR>
+noremap <S-F5> :source %<CR>
 " } ===
 
 
