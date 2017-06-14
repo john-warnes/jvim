@@ -148,11 +148,23 @@ setlocal keywordprg=:help
 nnoremap tt za
 nnoremap <Tab><Tab> za
 
+function! OpenAllFolds()
+    if (&l:modifiable)
+        normal! zR
+    endif
+endfunction
+
+function! OpenCursorFold()
+    if (&l:modifiable)
+        normal! zv
+    endif  "open only fold with cursor
+endfunction
+
 " On file open, open any folds the cursor is in
 augroup OpenCursorLine
     autocmd!
-    autocmd BufWinEnter * if (&l:modifiable) | normal! zR | endif  "open all folds
-    autocmd BufWinEnter * if (&l:modifiable) | normal! zv | endif  "open only fold with cursor
+    autocmd BufWinEnter * call OpenAllFolds() "open all folds
+    autocmd BufWinEnter * call OpenCursorFold() "open only fold with cursor
 augroup end
 " } ===
 
