@@ -81,6 +81,7 @@ endif
 "=============================================================================
     set mouse=a
     set noshowmode
+    set autoread
 " } ===
 
 
@@ -102,9 +103,14 @@ endif
 " } ===
 
 
+"=============================================================================
+" Color Column Support {
+"=============================================================================
 if exists('g:JV_colorColumn')
   let &colorcolumn=g:JV_colorColumn
 endif
+" } ===
+
 
 "=============================================================================
 " Fix Quickfix Window Height {
@@ -143,7 +149,7 @@ augroup end
     " On file open, open any folds the cursor is in
     augroup OpenCursorLine
         autocmd!
-        autocmd BufWinEnter * if &l:modifiable | normal! zR | endif  "open all folds
+"        autocmd BufWinEnter * if &l:modifiable | normal! zR | endif  "open all folds
         autocmd BufWinEnter * if &l:modifiable | normal! zv | endif  "open only fold with cursor
     augroup end
 " } ===
@@ -174,10 +180,6 @@ if (g:JV_showTrailing && &list)
         autocmd ColorScheme *
                     \ highlight clear SpecialKey |
                     \ execute "highlight link SpecialKey" g:JV_red
-    augroup end
-else
-    augroup TrailingSpace
-        autocmd!
     augroup end
 endif
 " } ===
