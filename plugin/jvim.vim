@@ -272,6 +272,7 @@ cnoremap w!! w !sudo tee % >/dev/null
 nnoremap <C-w><Del> :close<CR>
 nnoremap <C-w><BS> :close<CR>
 nnoremap <silent> <C-w><Bar> :set splitright<CR>:vnew<CR>:set nosplitright<CR>
+nnoremap <silent> <C-w>\ :set splitright<CR>:vnew<CR>:set nosplitright<CR>
 nnoremap <silent> <C-w>- :set splitbelow<CR>:new<CR>:set nosplitbelow<CR>
 
 "} ===
