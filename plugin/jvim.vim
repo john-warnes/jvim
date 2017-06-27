@@ -44,6 +44,10 @@ if !exists('g:JV_IndentGuide')
     let g:JV_IndentGuide = 1                        "Show indent guides when
     "using spaces F2 to toggle
 endif
+if !exists('g:JV_codePretty')
+    let g:JV_codePretty = 0                         "Replace some chars with alternatives
+    "using spaces F2 to toggle
+endif
 
 " } ===
 
@@ -57,7 +61,7 @@ endif
 "=============================================================================
 " Performance Options {
 "=============================================================================
-set synmaxcol=500          " Only syntax highlight 1000 columns right
+set synmaxcol=200           " Only syntax highlight 200 columns right
 set undolevels=5000         " How many undo to remember
 set undoreload=5000         " How many lines to save for undo
 set history=8000            " How many user command remember in history
@@ -68,9 +72,10 @@ set history=8000            " How many user command remember in history
 "=============================================================================
 " Vim Options {
 "=============================================================================
-set mouse=a
-set noshowmode
-set autoread
+set mouse=a         " Use mouse to place cursor
+set noshowmode      " Don't print mode in status line (Plugin does this already)
+set autoread        " Auto read changes in file from disk
+set gdefault        " Automatically assume global in replacements :%s/old/new/
 " } ===
 
 
@@ -188,28 +193,29 @@ if (g:JV_showTrailing && &list)
                     \ execute "highlight link SpecialKey" g:JV_red
     augroup end
 endif
-" } ===
 
+" } ===
 
 "=============================================================================
 " Show some characters as pretty {
 "=================================================================
-"if exists(g:CodePretty)
-"    if !exists('g:no_vim_conceal') && has('conceal') && &enc=='utf-8'
-"
-"        " Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie
-"        function! CodePretty()
-"            " Swap some charcters as prettier ones
-"            execute 'syntax match Operator "<=" conceal cchar=≤ contained containedin='.s:container
-"            execute 'syntax match Operator ">=" conceal cchar=≥ contained containedin='.s:container
-"            execute 'syntax match Operator "!=" conceal cchar=≠ contained containedin='.s:container
-"            execute 'syntax match Operator /\s\@<=pi\s\@=/ conceal cchar=π contained containedin='.s:container
-"            execute 'syntax match Operator /\w\@<=\^2/ conceal cchar=² contained containedin='.s:container
-"            execute 'syntax match Operator /\w\@<=\^3/ conceal cchar=³ contained containedin='.s:container
-"        endfunction
-"
-"    endif
-"endif
+if exists(g:JV_codePretty) && has('conceal') && (&encoding ==? 'utf-8')
+    " Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie
+    function! CodePretty()
+        " Swap some characters as prettier ones
+        execute 'syntax match Operator "<=" conceal cchar=≤ contained containedin=ALL'
+        execute 'syntax match Operator ">=" conceal cchar=≥ contained containedin=ALL'
+        execute 'syntax match Operator "!=" conceal cchar=≠ contained containedin=ALL'
+        execute 'syntax match Operator /\s\@<=pi\s\@=/ conceal cchar=π contained containedin=ALL'
+        execute 'syntax match Operator /\w\@<=\^2/ conceal cchar=² contained containedin=ALL'
+        execute 'syntax match Operator /\w\@<=\^3/ conceal cchar=³ contained containedin=ALL'
+    endfunction
+
+    augroup codePretty
+        autocmd!
+        autocmd BufReadPost,BufNewFile * call CodePretty
+    augroup end
+endif
 " } ===
 
 
@@ -223,20 +229,17 @@ if !exists('g:no_vim_conceal') && has('conceal') && exists('g:JV_IndentGuide')
         let b:IndentSize = &shiftwidth == 0 ? &tabstop : &shiftwidth
         execute 'syntax match Indent /^ \+/ containedin=ALL contains=IndentLevel'
         execute 'syntax match IndentLevel /\v(^( {'.(-b:IndentSize).'})+)@<= ( {0,'.(b:IndentSize-1).'})@=/ conceal cchar=¦ containedin=Indent contains=none'
-
-        highlight clear Conceal
-        highlight link Conceal GruvboxGray
     endfunction
 
     set conceallevel=2
     nnoremap <silent> <F2> :let &conceallevel = ( &conceallevel == 2 ? 0 : 2 )<CR>
 
-    augroup codePretty
+    augroup indentGuide
         autocmd!
         autocmd BufReadPost,BufNewFile * call ShowIndents()
-        autocmd ColorScheme gruvbox
-                    \ highlight clear Conceal |
-                    \ highlight link Conceal GruvboxGray
+"        autocmd ColorScheme gruvbox
+"                    \ highlight clear Conceal |
+"                    \ highlight link Conceal GruvboxGray
     augroup end
 endif
 
@@ -248,8 +251,8 @@ endif
 "=============================================================================
 if exists('g:JV_usePresistent_Undo') && has('persistent_undo')
     let &undodir= expand($DOTFILES.'/vim/undo')
-    silent! call mkdir(&undodir)                " Create dir if needed
-    set undofile                                " Use a undofile
+    silent! call mkdir(&undodir)                " Create directory if needed
+    set undofile                                " Use a undo file
 endif
 " } ===
 
