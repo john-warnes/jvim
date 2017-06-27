@@ -62,9 +62,9 @@ endif
 " Performance Options {
 "=============================================================================
 set synmaxcol=200           " Only syntax highlight 200 columns right
-set undolevels=5000         " How many undo to remember
-set undoreload=5000         " How many lines to save for undo
-set history=8000            " How many user command remember in history
+set undolevels=1000         " How many undo to remember
+set undoreload=10000        " How many lines to save for undo
+set history=2000            " How many user command remember in history
 
 " } ===
 
@@ -76,6 +76,7 @@ set mouse=a         " Use mouse to place cursor
 set noshowmode      " Don't print mode in status line (Plugin does this already)
 set autoread        " Auto read changes in file from disk
 set gdefault        " Automatically assume global in replacements :%s/old/new/
+set mousehide
 " } ===
 
 
@@ -327,8 +328,16 @@ cnoremap W! w!
 cnoremap Q q
 cnoremap Q! q!
 "} ===
-"
+
+" Paste Mode Toggle ========== {
+set pastetoggle=<leader>p
+"} ===
+
 "} === end Mappings
+
+
+
+
 
 
 "=============================================================================
@@ -351,7 +360,7 @@ augroup return_file_postion
     autocmd!
     au bufreadpost * if line("'\"") > 0 && line("'\"") <= line("$")
                 \ | exe "normal g'\"" | endif
-augroup END
+augroup end
 " } ===
 
 
@@ -373,6 +382,72 @@ if !has('gui_running')
     set wildcharm=<C-Z>
     map <F4> :emenu <C-Z>
 endif
+
+
+" Normal/Visual tab for bracket pairs
+nnoremap <tab> %
+vnoremap <tab> %
+
+" Use Tabs in makefiles php and go
+augroup useTabs
+    autocmd!
+    autocmd FileType make setlocal noexpandtab
+    autocmd Filetype php setlocal noexpandtab
+    autocmd Filetype go setlocal noexpandtab
+augroup end
+
+
+" Close vim if NERDTree is the last thing standing
+augroup closeNerdTree
+    autocmd!
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+augroup end
+
 " } ===
+
+
+"" Statusline (requires Powerline font)
+"set statusline=
+"set statusline+=%(%{'help'!=&filetype?bufnr('%'):''}\ \ %)
+"set statusline+=%< " Where to truncate line
+"set statusline+=%f " Path to the file in the buffer, as typed or relative to current directory
+"set statusline+=%{&modified?'\ +':''}
+"set statusline+=%{&readonly?'\ ':''}
+"set statusline+=%= " Separation point between left and right aligned items
+"set statusline+=\ %{''!=#&filetype?&filetype:'none'}
+"set statusline+=%(\ %{(&bomb\|\|'^$\|utf-8'!~#&fileencoding?'\ '.&fileencoding.(&bomb?'-bom':''):'')
+"  \.('unix'!=#&fileformat?'\ '.&fileformat:'')}%)
+"set statusline+=%(\ \ %{&modifiable?(&expandtab?'et\ ':'noet\ ').&shiftwidth:''}%)
+"set statusline+=\ 
+"set statusline+=\ %2v " Virtual column number
+"set statusline+=\ %3p%% " Percentage through file in lines as in |CTRL-G|
+"
+"" ------------------------ 8< ------------------------
+"
+"" Statusline (requires Powerline font, with highlight groups using Solarized theme)
+"set statusline=
+"set statusline+=%(%{'help'!=&filetype?bufnr('%'):''}\ \ %)
+"set statusline+=%< " Where to truncate line
+"set statusline+=%f " Path to the file in the buffer, as typed or relative to current directory
+"set statusline+=%{&modified?'\ +':''}
+"set statusline+=%{&readonly?'\ ':''}
+"set statusline+=\ %1*
+"set statusline+=%= " Separation point between left and right aligned items.
+"set statusline+=\ %{''!=#&filetype?&filetype:'none'}
+"set statusline+=%(\ %{(&bomb\|\|'^$\|utf-8'!~#&fileencoding?'\ '.&fileencoding.(&bomb?'-bom':''):'')
+"  \.('unix'!=#&fileformat?'\ '.&fileformat:'')}%)
+"set statusline+=%(\ \ %{&modifiable?(&expandtab?'et\ ':'noet\ ').&shiftwidth:''}%)
+"set statusline+=\ %*
+"set statusline+=\ %2v " Virtual column number.
+"set statusline+=\ %3p%% " Percentage through file in lines as in |CTRL-G|
+"
+"" Logic for customizing the User1 highlight group is the following
+"" - fg = StatusLine fg (if StatusLine colors are reverse)
+"" - bg = StatusLineNC bg (if StatusLineNC colors are reverse)
+"hi StatusLine term=reverse cterm=reverse gui=reverse ctermfg=14 ctermbg=8 guifg=#93a1a1 guibg=#002b36
+"hi StatusLineNC term=reverse cterm=reverse gui=reverse ctermfg=11 ctermbg=0 guifg=#657b83 guibg=#073642
+"hi User1 ctermfg=14 ctermbg=0 guifg=#93a1a1 guibg=#073642
+"
+" https://gist.github.com/ericbn/f2956cd9ec7d6bff8940c2087247b132
 
 "EOF
