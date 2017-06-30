@@ -161,8 +161,8 @@ endfunction
 " On file open, open any folds the cursor is in
 augroup OpenCursorLine
     autocmd!
-    autocmd BufWinEnter * call OpenAllFolds() "open all folds
-    autocmd BufWinEnter * call OpenCursorFold() "open only fold with cursor
+    autocmd BufRead * call OpenAllFolds() "open all folds
+    autocmd BufRead * call OpenCursorFold() "open only fold with cursor
 augroup end
 " } ===
 
