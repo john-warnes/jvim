@@ -294,6 +294,9 @@ nnoremap <silent> ff :set splitright<CR><C-w>vgf<CR>:set nosplitright<CR>
 
 " Mappings for Arrow Keys ========== {
 
+" Warp mapping for insert mode
+set whichwrap+=<,>,h,l,[,]
+
 " Insert mode
 inoremap <C-Right> <Esc><C-w>li
 inoremap <C-Left> <Esc><C-w>hi
