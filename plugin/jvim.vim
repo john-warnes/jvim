@@ -134,8 +134,8 @@ augroup end
 "=============================================================================
 " Vim Folding {
 "=============================================================================
-set foldminlines=3
-set foldmethod=syntax
+"set foldminlines=3
+"set foldmethod=syntax
 setlocal foldmarker={,}
 setlocal foldmethod=marker
 setlocal foldcolumn=1
