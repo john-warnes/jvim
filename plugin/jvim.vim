@@ -61,7 +61,7 @@ endif
 "=============================================================================
 " Performance Options {
 "=============================================================================
-set synmaxcol=200           " Only syntax highlight 200 columns right
+set synmaxcol=500           " Only syntax highlight 200 columns right
 set undolevels=1000         " How many undo to remember
 set undoreload=10000        " How many lines to save for undo
 set history=2000            " How many user command remember in history
@@ -233,7 +233,7 @@ if !exists('g:no_vim_conceal') && has('conceal') && exists('g:JV_IndentGuide')
     endfunction
 
     set conceallevel=2
-    nnoremap <silent> <F2> :let &conceallevel = ( &conceallevel == 2 ? 0 : 2 )<CR>
+        nnoremap <silent> <F2> :let &conceallevel = ( &conceallevel == 2 ? 0 : 2 )<CR>
 
     augroup indentGuide
         autocmd!
@@ -251,9 +251,10 @@ endif
 " Persistent_Undo {
 "=============================================================================
 if exists('g:JV_usePresistent_Undo') && has('persistent_undo')
-    let &undodir= expand($DOTFILES.'/vim/undo')
-    silent! call mkdir(&undodir)                " Create directory if needed
-    set undofile                                " Use a undo file
+    let g:undodir=expand($DOTFILES.'/vim/undo')
+    silent! call mkdir(g:undodir)  " Create directory if needed
+    let &undodir=g:undodir
+    set undofile                                       " Use a undo file
 endif
 " } ===
 
