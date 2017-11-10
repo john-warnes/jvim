@@ -1,15 +1,17 @@
-"                        _       _                                "
 "                       (_)_   _(_)_ __ ___                       "
 "                       | \ \ / / | '_ ` _ \                      "
 "                       | |\ V /| | | | | | |                     "
 "                      _/ | \_/ |_|_| |_| |_|                     "
 "                     |__/                                        "
-"
 "=================================================================
 " TOP Local file settings {
 "=================================================================
 set encoding=utf-8
 scriptencoding utf-8
+setlocal foldmarker={,}
+setlocal foldmethod=marker
+setlocal foldcolumn=1
+setlocal keywordprg=:help
 " } ===
 
 
@@ -30,7 +32,7 @@ if !exists('g:JV_usePresistent_Undo')
     let g:JV_usePresistent_Undo = 1                 "Use persistent Undo
 endif
 if !exists('g:JV_colorColumn')
-    let g:JV_colorColumn = join(range(81,83),',')   "Set long line guide
+    let g:JV_colorColumn = join(range(81,81),',')   "Set long line guide
     "let g:JV_colorColumn = 8
 endif
 if !exists('g:JV_red')
@@ -61,7 +63,7 @@ endif
 "=============================================================================
 " Performance Options {
 "=============================================================================
-set synmaxcol=500           " Only syntax highlight 200 columns right
+set synmaxcol=500           " Only syntax highlight 500 columns right
 set undolevels=1000         " How many undo to remember
 set undoreload=10000        " How many lines to save for undo
 set history=2000            " How many user command remember in history
@@ -84,6 +86,7 @@ set mousehide
 " Vim Spell {
 "=============================================================================
 set spell
+ " Use ''=='' to have vim guess the first spelling
 nnoremap == 1z=
 " } ===
 
@@ -92,7 +95,6 @@ nnoremap == 1z=
 " Tmux Support {
 "=============================================================================
 if exists('$TMUX')
-
     if !has('nvim')
         set ttymouse=xterm2
     endif
@@ -147,7 +149,7 @@ setlocal keywordprg=:help
 " Cycle Vim Folds
 
 nnoremap tt za
-nnoremap <Tab><Tab> za
+"nmap <Tab><Tab> za
 
 function! OpenAllFolds()
     if (&l:modifiable)
@@ -302,14 +304,40 @@ nnoremap <silent> ff :set splitright<CR><C-w>vgf<CR>:set nosplitright<CR>
 set whichwrap+=<,>,h,l,[,]
 
 " Insert mode
-inoremap <C-Right> <Esc><C-w>li
-inoremap <C-Left> <Esc><C-w>hi
-inoremap <C-Up> <Esc><C-w>ki
-inoremap <C-Down> <Esc><C-w>ji
+"inoremap <C-Right> <Esc><C-w>li
+"inoremap <C-Left> <Esc><C-w>hi
+"inoremap <C-Up> <Esc><C-w>ki
+"inoremap <C-Down> <Esc><C-w>ji
 
 " Normal mode
-nnoremap <C-Right> <C-w>l
-nnoremap <C-Left> <C-w>h
+
+function! WinTabNext()
+    let g:JV_temp = winnr()
+    wincmd l
+    if (g:JV_temp == winnr())
+        tabnext
+    endif
+endfunction
+
+function! WinTabPrev()
+    let g:JV_temp = winnr()
+    wincmd h
+    if (g:JV_temp == winnr())
+        tabprev
+    endif
+endfunction
+
+if !exists('$TMUX')
+    nnoremap <C-Left> :call WinTabPrev()<CR>
+    nnoremap <C-Right> :call WinTabNext()<CR>
+
+    nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+    nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
+else
+    nnoremap <C-Right> <C-w>l
+    nnoremap <C-Left> <C-w>h
+endif
+
 nnoremap <C-Up> <C-w>k
 nnoremap <C-Down> <C-w>j
 
@@ -318,6 +346,7 @@ nnoremap <Leader><Left> <C-w>h
 nnoremap <Leader><Up> <C-w>k
 nnoremap <Leader><Down> <C-w>j
 " } ===
+
 
 " Easier moving of code block indents Try to go into
 " visual mode (v), then select several lines of code here and
@@ -392,8 +421,8 @@ endif
 
 
 " Normal/Visual tab for bracket pairs
-nnoremap <tab> %
-vnoremap <tab> %
+nmap <tab> %
+vmap <tab> %
 
 " Use Tabs in makefiles php and go
 augroup useTabs
