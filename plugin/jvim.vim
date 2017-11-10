@@ -12,29 +12,29 @@ setlocal keywordprg=:help
 "=================================================================
 " JVim Settings {
 "=================================================================
-let g:JV_vimDir = get(g:, 'JV_vimDir', expand($HOME.'/.vim'))     " Setup Vim directory
-let g:JV_showTrailing = get(g:, 'JV_showTrailing', 1)             " Show Tailing Spaces
-let g:JV_showEol = get(g:, 'JV_showEol', 0)                       " Show EOL marker
-let g:JV_usePresistent_Undo = get(g:, 'JV_usePresistent_Undo', 1) " Use persistent Undo
-let g:JV_colorColumn = get(g:, 'JV_colorColumn', 81)              " Set long line guide
-" let g:JV_colorColumn = get(g:, 'JV_colorColumn', join(range(81,83),','))
-let g:JV_red = 'GruvboxRedBold'                                   " Highlight link for Red
-let g:JV_useSystemClipboard = get(g:, 'JV_useSystemClipboard', 1) " Try to use system clipboard
-let g:JV_IndentGuide = get(g:, 'JV_IndentGuide', 1)               " Show indent guides when (F2 Toggle)
-let g:JV_codePretty = get(g:, 'JV_codePretty', 1)                 " Replace some chars with alternatives (F2 Toggle)
+let g:JV_vimDir             = get(g:, 'JV_vimDir', expand($HOME.'/.vim')) " Setup Vim directory
+let g:JV_showTrailing       = get(g:, 'JV_showTrailing', 1)               " Show Tailing Spaces
+let g:JV_showEol            = get(g:, 'JV_showEol', 0)                    " Show EOL marker
+let g:JV_usePresistent_Undo = get(g:, 'JV_usePresistent_Undo', 1)         " Use persistent Undo
+let g:JV_colorColumn        = get(g:, 'JV_colorColumn', 81)               " Set long line guide
+                                                                          " let g:JV_colorColumn      = get(g:, 'JV_colorColumn', join(range(81,83),','))
+let g:JV_red                = 'GruvboxRedBold'                            " Highlight link for Red
+let g:JV_useSystemClipboard = get(g:, 'JV_useSystemClipboard', 1)         " Try to use system clipboard
+let g:JV_IndentGuide        = get(g:, 'JV_IndentGuide', 0)                " Show indent guides when (F2 Toggle)
+let g:JV_codePretty         = get(g:, 'JV_codePretty', 1)                 " Replace some chars with alternatives (F2 Toggle)
 
-let g:JV_quickFixHeightMin = get(g:, 'JV_quickFixHeightMin', 3)   " Limit the MIN size of the quick fix window
-let g:JV_quickFixHeightMax = get(g:, 'JV_quickFixHeightMax', 10)  " Limit the MAX size of the quick fix window
+let g:JV_quickFixHeightMin  = get(g:, 'JV_quickFixHeightMin', 3)          " Limit the MIN size of the quick fix window
+let g:JV_quickFixHeightMax  = get(g:, 'JV_quickFixHeightMax', 10)         " Limit the MAX size of the quick fix window
 
-let g:JV_foldingSyntax  = get(g:, 'JV_foldingSyntax', 1)          " 1 = enable folding=syntax for all files
+let g:JV_foldingSyntax      = get(g:, 'JV_foldingSyntax', 1)              " 1 = enable folding=syntax for all files
     "NOTE:Might be slow on older systems
 
-
-let g:JV_foldingDefault = get(g:, 'JV_foldingDefault', 2)         " Folding Mode on File Open
-    " 0 no default (might remember last)
-    " 1 open all folds on file open
-    " 2 close all folds on file open
-    " NOTE: ''tt'' in normal mode to toggle folds
+let g:JV_foldingDefault     = get(g:, 'JV_foldingDefault', 3)             " Folding Mode on File Open
+                                                                          " 0: none default vim
+                                                                          " 1: open all folds on file open
+                                                                          " 2: close all folds on file open
+                                                                          " 3: Auto save folds and reload them
+                                                                          " NOTE: ''tt'' in normal mode to toggle folds
 " } ===
 
 
@@ -178,7 +178,7 @@ augroup end
 "=================================================================
 " NOTE foldmethod=syntax can be VERY slow
 
-if (JV_foldingSyntax)
+if (g:JV_foldingSyntax)
     set foldminlines=3
     set foldmethod=syntax
 endif
@@ -186,6 +186,11 @@ endif
 setlocal foldmarker={,}
 setlocal foldmethod=marker
 setlocal foldcolumn=2
+
+
+if (g:JV_foldingDefault == 3)
+    set foldlevelstart=20
+endif
 
 " Cycle Vim Fold
 nnoremap tt za
@@ -214,10 +219,18 @@ endfunction
 " On file open, open all folds and the fold the cursor is on
 augroup OpenCursorLine
     autocmd!
-    if (JV_foldingDefault == 1)
+    if (g:JV_foldingDefault == 3)
+        autocmd BufWinLeave * mkview
+        autocmd BufWinEnter * silent! loadview
+        "saved to viewdir
+        " you can choose location with
+        " autocmd BufWinLeave * execute "mkview! " . expand('<afile>:p:h') . "/." . expand('<afile>:t') . ".view"
+        " autocmd BufWinEnter * execute "silent! source " . expand('%:p:h') . "/." . expand('%:t') . ".view"
+    endif
+    if (g:JV_foldingDefault == 1)
         autocmd BufWinEnter * call OpenAllFolds()   " open all folds
     endif
-    if (JV_foldingDefault == 2)
+    if (g:JV_foldingDefault == 2)
         autocmd BufWinEnter * call CloseAllFolds()  " close all folds
     endif
     autocmd BufWinEnter * call OpenCursorFold() " open only fold with cursor
@@ -506,7 +519,7 @@ augroup end
 
 
 
-"TOTALLY PLUG FREE STATUS LINE
+"TOTALLY PLUG FREE STATUS LINE {
 
 "" Statusline (requires Powerline font)
 "set statusline=
@@ -550,6 +563,9 @@ augroup end
 "hi StatusLineNC term=reverse cterm=reverse gui=reverse ctermfg=11 ctermbg=0 guifg=#657b83 guibg=#073642
 "hi User1 ctermfg=14 ctermbg=0 guifg=#93a1a1 guibg=#073642
 "
-" https://gist.github.com/ericbn/f2956cd9ec7d6bff8940c2087247b132
+" https://gist.github.com/ericbn/f2956cd9ec7d6bff8940c2087247b132i
+"
+" } ====
+
 
 "EOF
