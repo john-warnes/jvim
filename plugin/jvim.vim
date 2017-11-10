@@ -315,6 +315,8 @@ if (g:JV_usePresistent_Undo) && has('persistent_undo')
     silent! call mkdir(g:undodir)  " Create directory if needed
     let &undodir=g:undodir         " Tell vim to use directory
     set undofile                   " Tell vim to use a undo file
+else
+    set noundofile                 " Do not set undo files
 endif
 " } ===
 
@@ -426,6 +428,13 @@ set pastetoggle=<leader>p
 " Normal/Visual <tab> for jumping bracket pairs ========== {
 nmap <tab> %
 vmap <tab> %
+" } ===
+
+" Select Visual ======= {
+inoremap <S-home> <ESC>v^
+inoremap <S-home> <ESC>v^
+nnoremap <S-end> <ESC>v$<Left>
+nnoremap <S-end> <ESC>v$<Left>
 " } ===
 
 " } === end Mappings
