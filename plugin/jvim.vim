@@ -62,8 +62,10 @@ let g:JV_foldingDefault = get(g:, 'JV_foldingDefault', 2)         " Folding Mode
 " `:w!!` Force saving current file with *sudo* (protected file)
 "
 " ### Visual Mode
-" `<tab>` Jump to matching braces, parentheses, etc..
+" `<tab>` Jump to matching braces, parentheses, etc
 " `<` or `>` Indent or unindent lines selected lines
+" `<S-home>` Visually select from cursor to star of line
+" `<S-end>` Visually select from cursor to end of line
 "
 " ### Normal Mode
 "

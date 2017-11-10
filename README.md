@@ -50,7 +50,7 @@ let g:JV_foldingDefault     = 2                  " Folding Mode on File Open
                                                  "   0 no default (might remember last)
                                                  "   1 open all folds on file open
                                                  "   2 close all folds on file open
-                                                 "   NOTE: ''tt'' in normal mode to toggle folds
+                                                 "   NOTE: <t><t> normal mode to toggle folds
 ```
 
 ### Window Creation/Deletion
@@ -72,8 +72,10 @@ let g:JV_foldingDefault     = 2                  " Folding Mode on File Open
 `:w!!` Force saving current file with *sudo* (protected file)  
 
 ### Visual Mode
-`<tab>` Jump to matching braces, parentheses, etc..
-`<` or `>` Indent or unindent lines selected lines
+`<tab>` Jump to matching braces, parentheses, etc  
+`<` or `>` Indent or unindent lines selected lines  
+`<S-home>` Visually select from cursor to star of line  
+`<S-end>` Visually select from cursor to end of line  
 
 ### Normal Mode
 
