@@ -197,23 +197,24 @@ nnoremap tt za
 
 " Open all Folds on file open
 function! OpenAllFolds()
-    if (&l:modifiable)
+    if (&l:modifiable) && filereadable(expand('%'))
         normal! zR
     endif
 endfunction
 
 " Close all Folds on file open
 function! CloseAllFolds()
-    if (&l:modifiable)
+    if (&l:modifiable) && filereadable(expand('%'))
         normal! zM
     endif
 endfunction
 
-" Open any folds the cursor is in
+" Only open folds that the cursor in hidden by
 function! OpenCursorFold()
-    if (&l:modifiable)
+    if (&l:modifiable) && filereadable(expand('%'))
+        " open only fold with cursor
         normal! zv
-    endif  "open only fold with cursor
+    endif
 endfunction
 
 " On file open, open all folds and the fold the cursor is on
