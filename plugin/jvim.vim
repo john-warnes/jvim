@@ -39,7 +39,7 @@ let g:JV_foldingDefault     = get(g:, 'JV_foldingDefault', 3)             " Fold
 
 
 "=================================================================
-" Readme, Help, and Key Map Listing
+" Readme, Help, and Key Map Listing {
 "=================================================================
 " README: "../README.md"
 "
@@ -111,6 +111,8 @@ let g:JV_foldingDefault     = get(g:, 'JV_foldingDefault', 3)             " Fold
 " `:W` becomes `w`
 " `:W!` becomes `w!`
 "
+" } ===
+
 
 "=================================================================
 " Performance Options {
@@ -517,7 +519,6 @@ augroup closeNerdTree
 augroup end
 
 " } ===
-
 
 
 "TOTALLY PLUG FREE STATUS LINE {
