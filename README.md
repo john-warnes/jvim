@@ -97,7 +97,12 @@ let g:JV_foldingDefault     = 2                  " Folding Mode on File Open
 
 #### Display
 `<F2>` Show/hide indent guides and CodePretty()  
+
+Indent guide example  
 ![Indent Guide Example](/_assets/Indet_Flip.gif "Indent Guides")
+
+Example of codePretty text changes
+![Indent Guide Example](/_assets/codePretty.gif "codePretty")
 
 #### Spelling Help
 `==` to autocorrect word under cursor  
