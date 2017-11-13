@@ -1,7 +1,7 @@
 "=================================================================
 "                           jvim.vim                             "
 "=================================================================
-"  Revision  381
+"  Revision  389
 "  Modified  Monday, 13 November 2017
 "=================================================================
 set encoding=utf-8
@@ -138,6 +138,7 @@ set history=2000            " How many user command remember in history
 set autoread        " Auto read changes in file from disk
 set gdefault        " Automatically assume global in replacements :%s/old/new/
 set mousehide       " Hide mouse pointer when typing
+set list            " Enable display of hidden characters
 " } ===
 
 
@@ -251,8 +252,6 @@ augroup end
 "=================================================================
 " Show hidden white space {
 "=================================================================
-set list    " Enable display of hidden characters
-
 " Show some hidden characters as visible symbols
 set listchars=tab:\»\ ,nbsp:␣,extends:»,precedes:«
 
@@ -283,8 +282,8 @@ endif
 " Show some characters as pretty {
 "=================================================================
 if (g:JV_codePretty) && has('conceal')
-    
-    " Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie
+
+    " Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie    
 
     function! CodePretty()
         if !(&fileencoding ==? 'utf-8')
