@@ -1,4 +1,8 @@
-"                            jvim.vim                            "
+"=================================================================
+"                           jvim.vim                             "
+"=================================================================
+"  Revision  374
+"  Modified  Sunday, 12 November 2017
 "=================================================================
 set encoding=utf-8
 scriptencoding utf-8
@@ -10,7 +14,7 @@ setlocal keywordprg=:help
 
 
 "=================================================================
-" JVim Settings {
+" jvim Settings {
 "=================================================================
 let g:JV_vimDir             = get(g:, 'JV_vimDir', expand($HOME.'/.vim')) " Setup Vim directory
 let g:JV_showTrailing       = get(g:, 'JV_showTrailing', 1)               " Show Tailing Spaces
@@ -35,6 +39,9 @@ let g:JV_foldingDefault     = get(g:, 'JV_foldingDefault', 3)             " Fold
                                                                           " 2: close all folds on file open
                                                                           " 3: Auto save folds and reload them
                                                                           " NOTE: ''tt'' in normal mode to toggle folds
+let g:JV_DateFormat          = get(g:, 'JV_DateFormat', '%A, %d %B %Y')   " Format for template and metadata dates (man date)
+let g:JV_MaxMetaDataSearch   = get(g:, 'JV_MaxMetaDataSearch', 50)        " Max lines at top of file to search for meta data tags
+let g:JV_EnableUpdateMetaData = get(g:, 'JV_EnableUpdateMetaData', 1)     " Enable auto updating of metadata on file save
 " } ===
 
 
@@ -199,21 +206,21 @@ nnoremap tt za
 
 " Open all Folds on file open
 function! OpenAllFolds()
-    if (&l:modifiable) && filereadable(expand('%'))
+    if (&l:modifiable && filereadable(expand('%')) && line('$') > 100)
         normal! zR
     endif
 endfunction
 
 " Close all Folds on file open
 function! CloseAllFolds()
-    if (&l:modifiable) && filereadable(expand('%'))
+    if (&l:modifiable && filereadable(expand('%')) && line('$') > 100)
         normal! zM
     endif
 endfunction
 
 " Only open folds that the cursor in hidden by
 function! OpenCursorFold()
-    if (&l:modifiable) && filereadable(expand('%'))
+    if (&l:modifiable && filereadable(expand('%')) && line('$') > 100)
         " open only fold with cursor
         normal! zv
     endif
@@ -445,7 +452,6 @@ set pastetoggle=<leader>p
 
 " Normal/Visual <tab> for jumping bracket pairs ========== {
 nmap <tab> %
-vmap <tab> %
 " } ===
 
 " Select Visual ======= {
@@ -488,6 +494,40 @@ augroup end
 " Use ''Shift+F5'' to resource current files
 noremap <S-F5> :source %<CR>
 " } ===
+
+
+"=================================================================
+" JV_UpdateMetaData THIS FUNCTION MUST BE BELOW LINE 50 of the FILE {
+"=================================================================
+function! g:JV_UpdateMetaData()
+    let b:JV_maxline = line('$')
+
+    if (b:JV_maxline > g:JV_MaxMetaDataSearch)
+        let b:JV_maxline = g:JV_MaxMetaDataSearch
+    endif
+    ":normal mj
+    let l:winview = winsaveview()
+
+    :silent exe ':0,' . b:JV_maxline . 'g/  Revision  /:silent exe "normal! $b\<C-a>"'
+    :silent exe ':0,' . b:JV_maxline . 's/  Modified  \zs.*/\=strftime("' . g:JV_DateFormat . '")/e'
+
+    :silent exe ':0,' . b:JV_maxline . 'g/^#define REVISION__ /:silent exe "normal! $\<C-a>"'
+    :silent! exe ':0,' . b:JV_maxline . 's/^#define MODIFIED__ \zs.*/\=strftime("\"' . g:JV_DateFormat . '\"")/e'
+
+    :noh
+    call winrestview(l:winview)
+    ":normal `j
+endfunction
+
+nnoremap <C-y> :call g:JV_UpdateMetaData()<CR>
+
+if (g:JV_EnableUpdateMetaData == 1)
+    augroup autoMetaData
+        autocmd!
+        autocmd BufWrite * :silent call g:JV_UpdateMetaData()
+    augroup END
+endif
+"} ===
 
 
 "=================================================================
