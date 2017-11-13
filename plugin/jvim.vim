@@ -1,8 +1,8 @@
 "=================================================================
 "                           jvim.vim                             "
 "=================================================================
-"  Revision  374
-"  Modified  Sunday, 12 November 2017
+"  Revision  381
+"  Modified  Monday, 13 November 2017
 "=================================================================
 set encoding=utf-8
 scriptencoding utf-8
@@ -30,7 +30,7 @@ let g:JV_codePretty         = get(g:, 'JV_codePretty', 1)                 " Repl
 let g:JV_quickFixHeightMin  = get(g:, 'JV_quickFixHeightMin', 3)          " Limit the MIN size of the quick fix window
 let g:JV_quickFixHeightMax  = get(g:, 'JV_quickFixHeightMax', 10)         " Limit the MAX size of the quick fix window
 
-let g:JV_foldingSyntax      = get(g:, 'JV_foldingSyntax', 1)              " 1 = enable folding=syntax for all files
+let g:JV_foldingSyntax      = get(g:, 'JV_foldingSyntax', 0)              " 1 = enable folding=syntax for all files
     "NOTE:Might be slow on older systems
 
 let g:JV_foldingDefault     = get(g:, 'JV_foldingDefault', 3)             " Folding Mode on File Open
@@ -283,7 +283,9 @@ endif
 " Show some characters as pretty {
 "=================================================================
 if (g:JV_codePretty) && has('conceal')
+    
     " Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie
+
     function! CodePretty()
         if !(&fileencoding ==? 'utf-8')
             return
@@ -305,7 +307,6 @@ if (g:JV_codePretty) && has('conceal')
 endif
 " } ===
 
-
 "=================================================================
 " Indent Guides for spaces {{
 "=================================================================
@@ -316,9 +317,6 @@ if !exists('g:no_vim_conceal') && has('conceal') && (g:JV_IndentGuide)
         execute 'syntax match Indent /^ \+/ containedin=ALL contains=IndentLevel'
         execute 'syntax match IndentLevel /\v(^( {'.(-b:IndentSize).'})+)@<= ( {0,'.(b:IndentSize-1).'})@=/ conceal cchar=¦ containedin=Indent contains=none'
     endfunction
-
-    set conceallevel=2
-        nnoremap <silent> <F2> :let &conceallevel = ( &conceallevel == 2 ? 0 : 2 )<CR>
 
     augroup indentGuide
         autocmd!
@@ -461,7 +459,12 @@ nnoremap <S-end> <ESC>v$<Left>
 nnoremap <S-end> <ESC>v$<Left>
 " } ===
 
-" } === end Mappings
+" Conceal Toggle <F2> ====== {
+set conceallevel=2
+nnoremap <silent> <F2> :let &conceallevel = ( &conceallevel == 2 ? 0 : 2 )<CR>
+"} ===
+
+"} === end Mappings
 
 
 "=================================================================
@@ -497,7 +500,7 @@ noremap <S-F5> :source %<CR>
 
 
 "=================================================================
-" JV_UpdateMetaData THIS FUNCTION MUST BE BELOW LINE 50 of the FILE {
+" MetaData THIS FUNCTION MUST BE BELOW LINE 50 of the FILE {
 "=================================================================
 function! g:JV_UpdateMetaData()
     let b:JV_maxline = line('$')
