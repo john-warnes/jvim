@@ -44,7 +44,7 @@ nnoremap <C-y> :call g:UpdateMetaData()<CR>
 if (g:Jvim#metadata#UpdateMetaData == 1)
     augroup autoUpdateMetaData
         autocmd!
-        autocmd FileWritePre * :silent! call g:UpdateMetaData()
+        autocmd BufWritePre * :silent! call g:UpdateMetaData()
     augroup end
 endif
 
