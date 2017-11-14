@@ -29,12 +29,12 @@ let g:Jvim#loaded=1
 let g:Jvim#vimopts#colorColumn        = get(g:, 'Jvim#vimopts#colorColumn', 81)       " Set long line guide
 let g:Jvim#vimopts#useSystemClipboard = get(g:, 'Jvim#vimopts#useSystemClipboard', 1) " Try to use system clipboard
 
-let g:Jvim#highlightRed = get(g:, 'Jvim#hidden#showTrailing', 'gruvboxRedBold') " Highlight to link for Red
+let g:Jvim#highlightRed = get(g:, 'Jvim#hidden#showTrailing', 'g:GruvboxRedBold') " Highlight to link for Red
 
 let g:Jvim#hidden#showTrailing = get(g:, 'Jvim#hidden#showTrailing', 1) " Show Tailing Spaces
 let g:Jvim#hidden#showEol      = get(g:, 'Jvim#hidden#showEol', 0)      " Show EOL marker
 let g:Jvim#hidden#showIndent   = get(g:, 'Jvim#hidden#showIndent', 0)   " Show indent guides when (F2 Toggle)
-let g:Jvim#hidden#codePretty   = get(g:, 'Jvim#hidden#codePretty', 0)   " Replace some chars with alternatives (F2 Toggle)
+let g:Jvim#hidden#codePretty   = get(g:, 'Jvim#hidden#codePretty', 1)   " Replace some chars with alternatives (F2 Toggle)
 
 let g:Jvim#presistentUndo#enable = get(g:, 'Jvim#presistentUndo#enable', 1) " Use persistent Undo
 let g:Jvim#presistentUndo#dir    = get(g:, 'Jvim#presistentUndo#dir', expand($DOTFILES.'/vim/undo')) " Where to store persistent files
@@ -58,7 +58,7 @@ let g:Jvim#metadata#UpdateMetaData = get(g:, 'Jvim#metadata#UpdateMetaData', 1) 
 
 let g:Jvim#testing#testingEnable = get(g:, 'Jvim#testing#testingEnable', 0) " loaded auto updating of metadata on file save
 let g:Jvim#testing#debugEnable   = get(g:, 'Jvim#testing#debugEnable', 0)   " loaded auto updating of metadata on file save
-" } ===
+"} ===
 
 
 "=================================================================
@@ -149,55 +149,55 @@ let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 "=================================================================
 " Vim options
 "=================================================================
-execute "source " . s:path . "/vimopt.source"
+execute 'source ' . s:path . '/' . 'vimopt.source'
 
 
 "=================================================================
 " Remember file positions
 "=================================================================
-execute "source " . s:path . "/remeberposistion.source"
+execute 'source ' . s:path . '/' . 'remeberposistion.source'
 
 
 "=================================================================
 " Hidden characters
 "=================================================================
-execute "source " . s:path . "/hidden.source"
+execute 'source ' . s:path . '/' . 'hidden.source'
 
 
 "=================================================================
 " folding
 "=================================================================
-execute "source " . s:path . "/folding.source"
+execute 'source ' . s:path . '/' . 'folding.source'
 
 
 "=================================================================
 " Persistent Undo
 "=================================================================
-execute "source " . s:path . "/persistentUndo.source"
+execute 'source ' . s:path . '/' . 'persistentUndo.source'
 
 
 "=================================================================
 " Metadata support
 "=================================================================
-execute "source " . s:path . "/metadata.source"
+execute 'source ' . s:path . '/' . 'metadata.source'
 
 
 "=================================================================
 " Key mappings
 "=================================================================
-execute "source " . s:path . "/keymaps.source"
+execute 'source ' . s:path . '/' . 'keymaps.source'
 
 
 "=================================================================
 " Quickfix window
 "=================================================================
-execute "source " . s:path . "/quickfix.source"
+execute 'source ' . s:path . '/' . 'quickfix.source'
 
 
 "=================================================================
 " Testing
 "=================================================================
-execute "source " . s:path . "/testing.source"
+execute 'source ' . s:path . '/' . 'testing.source'
 
 
 " Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie    
