@@ -1,7 +1,7 @@
 "=================================================================
 "                           jvim.vim                             "
 "=================================================================
-"  Revision  536
+"  Revision  545
 "  Modified  Tuesday, 14 November 2017
 "=================================================================
 set encoding=utf-8
@@ -52,7 +52,7 @@ let g:Jvim#quickFix#enable     = get(g:, 'Jvim#quickFix#enable', 0)     " Enable
 let g:Jvim#quickFix#heightMin  = get(g:, 'Jvim#quickFix#heightMin', 3)  " Limit the MIN size of the quick fix window
 let g:Jvim#quickFix#heightMax  = get(g:, 'Jvim#quickFix#heightMax', 10) " Limit the MAX size of the quick fix window
 
-let g:Jvim#metadata#DateFormat     = get(g:, 'Jvim#DateFormat', 'A, d B Y') " Format for template and metadata dates (man date)
+let g:Jvim#metadata#DateFormat     = get(g:, 'Jvim#DateFormat', '%A, %d %B %Y') " Format for template and metadata dates (man date)
 let g:Jvim#metadata#MaxSearch      = get(g:, 'Jvim#MaxMetaDataSearch', 50)      " Max lines at top of file to search for meta data tags
 let g:Jvim#metadata#UpdateMetaData = get(g:, 'Jvim#metadata#UpdateMetaData', 1) " Loaded auto updating of metadata on file save
 

@@ -21,7 +21,7 @@ function! g:UpdateMetaData()
     
     let b:Jvim_maxline = line('$')
     
-    if !(&b:modifiable) || (b:Jvim_maxline == 1)
+    if !(&l:modifiable) || (b:Jvim_maxline == 1)
         return 1
     endif
 
