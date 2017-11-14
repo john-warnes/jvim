@@ -17,7 +17,7 @@ let g:Jvim#remeberPosistion#loaded=1
 "=================================================================
 " Return to the last position in the file {
 "=================================================================
-augroup return_file_postion
+augroup autoReturnToFilePostion
     autocmd!
     au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
                 \ | exe "normal g'\"" | endif

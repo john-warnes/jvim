@@ -14,7 +14,7 @@ endif
 let g:Jvim#quickfix#loaded=1
 
 
-if (g:Jvim#quickFix#enable)
+if !(g:Jvim#quickFix#enable)
     finish
 endif
 
@@ -37,6 +37,6 @@ function! AdjustWindowHeight(minheight, maxheight)
     exe max([min([l:n_lines, a:maxheight]), a:minheight]) . 'wincmd _'
 endfunction
 
-augroup audoQuickFixWindowHeight
+augroup autoQuickFixWindowHeight
     au FileType qf call AdjustWindowHeight(g:Jvim#quickFix#heightMin, g:JV_quickFixHeightMax)
 augroup end

@@ -175,7 +175,7 @@ augroup JVEventLogger
     autocmd MenuPopup            * call g:JVLog('MenuPopup')
     autocmd CompleteDone         * call g:JVLog('CompleteDone')
     autocmd User                 * call g:JVLog('User')
-augroup END
+augroup end
 
 function! g:JVLog(eventName) abort
     if (g:JV_DebugMode == 1)

@@ -1,5 +1,5 @@
 "=================================================================
-" Hidden Characters 
+" Hidden Characters
 "=================================================================
 " vim: set filetype=vim:
 
@@ -39,11 +39,15 @@ if (g:Jvim#hidden#showTrailing)
     highlight clear SpecialKey
     execute 'highlight link SpecialKey ' . expand(g:Jvim#highlightRed)
 
-"    augroup JV_trailingSpaceColorFix
+
+    function! ColorTrailing()
+        highlight clear SpecialKey
+        execute 'highlight link SpecialKey ' . expand(g:Jvim#highlightRed)
+    endfunction
+
+"    augroup autoShowTrailing
 "        autocmd!
-"        autocmd ColorScheme *
-"                    \ highlight clear SpecialKey |
-"                    \ execute 'highlight link SpecialKey ' . g:JV_red
+"        autocmd ColorScheme * ColorTrailing()
 "    augroup end
 
 endif
@@ -58,6 +62,12 @@ endif
 
 
 "=================================================================
+" Set Concel Level and Function Helper
+"=================================================================
+nnoremap <silent> <F2> :let &conceallevel = ( &conceallevel == 2 ? 0 : 2 )<CR>
+
+
+"=================================================================
 " codePretty make some characters pretty
 "=================================================================
 if (g:Jvim#hidden#codePretty)
@@ -65,9 +75,10 @@ if (g:Jvim#hidden#codePretty)
     " Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie    
 
     function! CodePretty()
-        if !(&fileencoding ==? 'utf-8')
+        if !(&l:fileencoding ==? 'utf-8')
             return
         endif
+        set conceallevel=2
         " Swap some characters as prettier ones
         execute 'syntax match Operator "<=" conceal cchar=≤ contained containedin=ALL'
         execute 'syntax match Operator ">=" conceal cchar=≥ contained containedin=ALL'
@@ -78,10 +89,10 @@ if (g:Jvim#hidden#codePretty)
         execute 'syntax match Operator /\w\@<=\^3/ conceal cchar=³ contained containedin=ALL'
     endfunction
 
-"    augroup codePrettyAuto
-"        autocmd!
-"        autocmd BufReadPost,BufNewFile * call CodePretty()
-"    augroup end
+    augroup autoCodePretty
+        autocmd!
+        autocmd BufWinEnter * call CodePretty()
+    augroup end
 
 endif
 
@@ -91,17 +102,17 @@ endif
 "=================================================================
 if (g:Jvim#hidden#showIndent)
 
-    function! showIndent()
+    function! ShowIndent()
         let b:IndentSize = &shiftwidth == 0 ? &tabstop : &shiftwidth
         execute 'syntax match Indent /^ \+/ containedin=ALL contains=IndentLevel'
         execute 'syntax match IndentLevel /\v(^( {'.(-b:IndentSize).'})+)@<= ( {0,'.(b:IndentSize-1).'})@=/ conceal cchar=¦ containedin=Indent contains=none'
     endfunction
 
-"    augroup showIndentAuto
-"        autocmd!
-"        autocmd BufReadPost,BufNewFile * call showIndent()
+    augroup autoShowIndent
+        autocmd!
+        autocmd BufReadPost,BufNewFile * call ShowIndent()
 "        autocmd ColorScheme gruvbox
 "                    \ highlight clear Conceal |
 "                    \ highlight link Conceal GruvboxGray
-"    augroup end
+    augroup end
 endif

@@ -1,14 +1,15 @@
 "=================================================================
 "                           jvim.vim                             "
 "=================================================================
-"  Revision  545
+"  Revision  564
 "  Modified  Tuesday, 14 November 2017
 "=================================================================
-set encoding=utf-8
+" vim: set filetype=vim:
+" vim: set foldmarker={,}:
+" vim: foldmethod=marker:
 scriptencoding utf-8
 setlocal foldmarker={,}
 setlocal foldmethod=marker
-setlocal foldcolumn=1
 setlocal keywordprg=:help
 "=================================================================
 

@@ -21,6 +21,7 @@ if (g:Jvim#folding#defaultFolding == 0)
     finish
 endif
 
+setlocal foldcolumn=2
 
 
 "=================================================================
@@ -42,7 +43,7 @@ if (g:Jvim#folding#defaultFolding == 3)
         autocmd!
         autocmd BufWinLeave * mkview
         autocmd BufWinEnter * silent! loadview
-    augroup END
+    augroup end
 endif
 
 

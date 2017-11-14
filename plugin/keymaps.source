@@ -46,7 +46,23 @@ nnoremap tt za
 
 
 
-
+"=================================================================
+" mac OSX 
+"=================================================================
+" mac os make <FN+Arrows> work as CTRL+Arrows
+if has('macunix')
+    if has('nvim')
+        map <PageUp> <C-Up>
+        map <PageDown> <C-Down>
+        map <Home> <C-Left>
+        map <End> <C-Right>
+    else
+        map <ESC>[5~ <C-Up>
+        map <ESC>[6~ <C-Down>
+        map <ESC>OH <C-Left>
+        map <ESC>OF <C-Right>
+    endif
+endif
 
 
 "=================================================================
@@ -154,8 +170,4 @@ nnoremap <S-end> <ESC>v$<Left>
 nnoremap <S-end> <ESC>v$<Left>
 "} ===
 
-" Conceal Toggle <F2> ====== {
-set conceallevel=2
-nnoremap <silent> <F2> :let &conceallevel = ( &conceallevel == 2 ? 0 : 2 )<CR>
-"} ===
 

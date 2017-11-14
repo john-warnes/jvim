@@ -14,6 +14,7 @@ endif
 let g:Jvim#presistentUndo#loaded=1
 
 if !has('persistent_undo')
+    set noundofile                                " Do not set undo files
     finish
 endif
 
