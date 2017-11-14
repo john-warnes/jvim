@@ -1,7 +1,7 @@
 "=================================================================
 "                           jvim.vim                             "
 "=================================================================
-"  Revision  389
+"  Revision  423
 "  Modified  Monday, 13 November 2017
 "=================================================================
 set encoding=utf-8
@@ -30,7 +30,7 @@ let g:JV_codePretty         = get(g:, 'JV_codePretty', 1)                 " Repl
 let g:JV_quickFixHeightMin  = get(g:, 'JV_quickFixHeightMin', 3)          " Limit the MIN size of the quick fix window
 let g:JV_quickFixHeightMax  = get(g:, 'JV_quickFixHeightMax', 10)         " Limit the MAX size of the quick fix window
 
-let g:JV_foldingSyntax      = get(g:, 'JV_foldingSyntax', 0)              " 1 = enable folding=syntax for all files
+let g:JV_foldingSyntax      = get(g:, 'JV_foldingSyntax', 0)              " 1: enable 'folding=syntax' for all files
     "NOTE:Might be slow on older systems
 
 let g:JV_foldingDefault     = get(g:, 'JV_foldingDefault', 3)             " Folding Mode on File Open
@@ -265,17 +265,17 @@ if (g:JV_showTrailing && &list)
 
     set listchars+=trail:·
     highlight clear SpecialKey
-    execute 'highlight link SpecialKey' g:JV_red
+    execute 'highlight link SpecialKey ' . g:JV_red
 
-    augroup JV_trailingSpaceColorFix
-        autocmd!
-        autocmd ColorScheme *
-                    \ highlight clear SpecialKey |
-                    \ execute "highlight link SpecialKey" g:JV_red
-    augroup end
+"    augroup JV_trailingSpaceColorFix
+"        autocmd!
+"        autocmd ColorScheme *
+"                    \ highlight clear SpecialKey |
+"                    \ execute 'highlight link SpecialKey ' . g:JV_red
+"    augroup end
 endif
 
-" } ===
+" } ===   
 
 
 "=================================================================
@@ -502,7 +502,13 @@ noremap <S-F5> :source %<CR>
 " MetaData THIS FUNCTION MUST BE BELOW LINE 50 of the FILE {
 "=================================================================
 function! g:JV_UpdateMetaData()
+    if !&l:modifiable
+        return 1
+    endif
     let b:JV_maxline = line('$')
+    if (b:JV_maxline == 1)
+        return 1
+    endif
 
     if (b:JV_maxline > g:JV_MaxMetaDataSearch)
         let b:JV_maxline = g:JV_MaxMetaDataSearch
@@ -510,10 +516,10 @@ function! g:JV_UpdateMetaData()
     ":normal mj
     let l:winview = winsaveview()
 
-    :silent exe ':0,' . b:JV_maxline . 'g/  Revision  /:silent exe "normal! $b\<C-a>"'
-    :silent exe ':0,' . b:JV_maxline . 's/  Modified  \zs.*/\=strftime("' . g:JV_DateFormat . '")/e'
+    :silent! exe ':0,' . b:JV_maxline . 'g/  Revision  /:silent exe "normal! $b\<C-a>"'
+    :silent! exe ':0,' . b:JV_maxline . 's/  Modified  \zs.*/\=strftime("' . g:JV_DateFormat . '")/e'
 
-    :silent exe ':0,' . b:JV_maxline . 'g/^#define REVISION__ /:silent exe "normal! $\<C-a>"'
+    :silent! exe ':0,' . b:JV_maxline . 'g/^#define REVISION__ /:silent exe "normal! $\<C-a>"'
     :silent! exe ':0,' . b:JV_maxline . 's/^#define MODIFIED__ \zs.*/\=strftime("\"' . g:JV_DateFormat . '\"")/e'
 
     :noh
@@ -526,7 +532,7 @@ nnoremap <C-y> :call g:JV_UpdateMetaData()<CR>
 if (g:JV_EnableUpdateMetaData == 1)
     augroup autoMetaData
         autocmd!
-        autocmd BufWrite * :silent call g:JV_UpdateMetaData()
+        autocmd BufWrite * :silent! call g:JV_UpdateMetaData()
     augroup END
 endif
 "} ===
