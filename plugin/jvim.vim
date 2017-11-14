@@ -1,12 +1,9 @@
 "=================================================================
 "                           jvim.vim                             "
 "=================================================================
-"  Revision  564
+"  Revision  566
 "  Modified  Tuesday, 14 November 2017
 "=================================================================
-" vim: set filetype=vim:
-" vim: set foldmarker={,}:
-" vim: foldmethod=marker:
 scriptencoding utf-8
 setlocal foldmarker={,}
 setlocal foldmethod=marker

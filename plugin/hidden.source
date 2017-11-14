@@ -45,10 +45,10 @@ if (g:Jvim#hidden#showTrailing)
         execute 'highlight link SpecialKey ' . expand(g:Jvim#highlightRed)
     endfunction
 
-"    augroup autoShowTrailing
-"        autocmd!
-"        autocmd ColorScheme * ColorTrailing()
-"    augroup end
+    augroup autoShowTrailing
+        autocmd!
+        autocmd BufWinEnter * call ColorTrailing()
+    augroup end
 
 endif
 
