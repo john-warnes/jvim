@@ -52,7 +52,7 @@ let g:Jvim#quickFix#enable     = get(g:, 'Jvim#quickFix#enable', 0)     " Enable
 let g:Jvim#quickFix#heightMin  = get(g:, 'Jvim#quickFix#heightMin', 3)  " Limit the MIN size of the quick fix window
 let g:Jvim#quickFix#heightMax  = get(g:, 'Jvim#quickFix#heightMax', 10) " Limit the MAX size of the quick fix window
 
-let g:Jvim#metadata#DateFormat     = get(g:, 'Jvim#DateFormat', '%A, %d %B %Y') " Format for template and metadata dates (man date)
+let g:Jvim#metadata#DateFormat     = get(g:, 'Jvim#DateFormat', 'A, d B Y') " Format for template and metadata dates (man date)
 let g:Jvim#metadata#MaxSearch      = get(g:, 'Jvim#MaxMetaDataSearch', 50)      " Max lines at top of file to search for meta data tags
 let g:Jvim#metadata#UpdateMetaData = get(g:, 'Jvim#metadata#UpdateMetaData', 1) " Loaded auto updating of metadata on file save
 
@@ -139,58 +139,65 @@ let g:Jvim#testing#debugEnable   = get(g:, 'Jvim#testing#debugEnable', 0)   " lo
 set modeline
 set modelines=5
 
+" If you're using a symlink to your script, but your resources are in
+" the same directory as the actual script, you'll need to do this:
+"   1: Get the absolute path of the script
+"   2: Resolve all symbolic links
+"   3: Get the folder of the resolved absolute filer
+let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+
 "=================================================================
 " Vim options
 "=================================================================
-execute "source %:p:h/"."vimopt.source"
+execute "source " . s:path . "/vimopt.source"
 
 
 "=================================================================
 " Remember file positions
 "=================================================================
-execute "source %:p:h/"."remeberposistion.source"
+execute "source " . s:path . "/remeberposistion.source"
 
 
 "=================================================================
 " Hidden characters
 "=================================================================
-execute "source %:p:h/"."hidden.source"
+execute "source " . s:path . "/hidden.source"
 
 
 "=================================================================
 " folding
 "=================================================================
-execute "source %:p:h/"."folding.source"
+execute "source " . s:path . "/folding.source"
 
 
 "=================================================================
 " Persistent Undo
 "=================================================================
-execute "source %:p:h/"."persistentUndo.source"
+execute "source " . s:path . "/persistentUndo.source"
 
 
 "=================================================================
 " Metadata support
 "=================================================================
-execute "source %:p:h/"."metadata.source"
+execute "source " . s:path . "/metadata.source"
 
 
 "=================================================================
 " Key mappings
 "=================================================================
-execute "source %:p:h/"."keymaps.source"
+execute "source " . s:path . "/keymaps.source"
 
 
 "=================================================================
 " Quickfix window
 "=================================================================
-execute "source %:p:h/"."quickfix.source"
+execute "source " . s:path . "/quickfix.source"
 
 
 "=================================================================
 " Testing
 "=================================================================
-execute "source %:p:h/"."testing.source"
+execute "source " . s:path . "/testing.source"
 
 
 " Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie    
