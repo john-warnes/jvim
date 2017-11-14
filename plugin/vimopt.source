@@ -1,0 +1,71 @@
+"=================================================================
+" Vim options
+"=================================================================
+" vim: set filetype=vim:
+
+
+"=================================================================
+" Include Guard
+"=================================================================
+let g:Jvim#vimopts#loaded = get(g:, 'Jvim#vimopts#loaded', 0)
+if (g:Jvim#vimopts#loaded)
+    finish
+endif
+let g:Jvim#vimopts#loaded=1
+
+
+"=================================================================
+" System Clipboard
+"=================================================================
+if has('clipboard') && (g:Jvim#vimopts#useSystemClipboard)
+    if has('macunix')
+        set clipboard=unnamed
+    else
+        set clipboard=unnamedplus
+    endif
+endif
+
+
+"=================================================================
+" Module Options
+"=================================================================
+" Set long line guide
+let g:Jvim#vimopts#colorColumn = get(g:, 'Jvim#vimopts#colorcolumn', 81)
+
+
+"=================================================================
+" Magic Mode Line Performance Options {
+"=================================================================
+set modeline
+set modelines=5
+"} ===
+
+"=================================================================
+" Performance Options {
+"=================================================================
+set synmaxcol=500           " Only syntax highlight 500 columns right
+set undolevels=2000         " How many undo to remember
+set undoreload=10000        " How many lines to save for undo
+set history=2000            " How many user command remember in history
+"} ===
+
+
+"=================================================================
+" Vim Options {
+"=================================================================
+"set noshowmode      " Don't print mode in status line (Plugin does this already)
+set autoread        " Auto read changes in file from disk
+set gdefault        " Automatically assume global in replacements :%s/old/new/
+set mousehide       " Hide mouse pointer when typing
+set list            " loaded display of hidden characters
+set encoding=utf-8
+"} ===
+
+
+"=================================================================
+" Color Column Support {
+"=================================================================
+let &colorcolumn=g:Jvim#vimopts#colorColumn
+"} ===
+
+

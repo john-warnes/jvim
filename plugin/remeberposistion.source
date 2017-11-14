@@ -1,0 +1,25 @@
+"=================================================================
+" Return to the last position in the file
+"=================================================================
+" vim: set filetype=vim:
+
+
+"=================================================================
+" Include Guard
+"=================================================================
+let g:Jvim#remeberPosistion#loaded = get(g:, 'Jvim#remeberPosistion#loaded', 0)
+if (g:Jvim#remeberPosistion#loaded)
+    finish
+endif
+let g:Jvim#remeberPosistion#loaded=1
+
+
+"=================================================================
+" Return to the last position in the file {
+"=================================================================
+augroup return_file_postion
+    autocmd!
+    au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+                \ | exe "normal g'\"" | endif
+augroup end
+

@@ -1,0 +1,161 @@
+"=================================================================
+" Keymaps
+"=================================================================
+" vim: set filetype=vim:
+
+
+"=================================================================
+" Include Guard
+"=================================================================
+let g:Jvim#keymaps#loaded = get(g:, 'Jvim#keymaps#loaded', 0)
+if (g:Jvim#keymaps#loaded)
+    finish
+endif
+let g:Jvim#keymaps#loaded=1
+
+
+"=================================================================
+" Plugin Help Commands
+"=================================================================
+" Use ''Shift+F5'' to resource current files
+noremap <S-F5> :source %<CR>
+
+
+"=================================================================
+" Small Useful Support Functions
+"=================================================================
+command! TrimFile silent! %s/\s\+$//g | echom 'Trailing Space(s) Trimmed'
+
+" sudo write current file
+cnoremap w!! w !sudo tee % >/dev/null
+
+
+"=================================================================
+" Vim Spell
+"=================================================================
+ " Use ''=='' to have vim guess the first spelling
+ " Use ''z='' to have vim show a list of possible spellings
+set spell
+nnoremap == 1z=
+
+
+"=================================================================
+" Cycle Vim Folding
+"=================================================================
+nnoremap tt za
+
+
+
+
+
+
+"=================================================================
+" Useful Mappings and Standard Keys (Arrows etc)  {
+"=================================================================
+
+" Mappings for Window/Buffer Control ========== {
+nnoremap <C-w><Del> :close<CR>
+nnoremap <C-w><BS> :close<CR>
+nnoremap <silent> <C-w><Bar> :set splitright<CR>:vnew<CR>:set nosplitright<CR>
+nnoremap <silent> <C-w>\ :set splitright<CR>:vnew<CR>:set nosplitright<CR>
+nnoremap <silent> <C-w>- :set splitbelow<CR>:new<CR>:set nosplitbelow<CR>
+nnoremap <silent> <C-w>= :set splitbelow<CR>:new<CR>:set nosplitbelow<CR>
+"} ===
+
+" Mapping opening files under cursor ========== {
+"  <C-PageUp>    Built in next tab
+"  <C-PageDown>  Built in prev tab
+"  <ft> open file in new tab
+"  <ff> open file in new v split window
+nnoremap ft <C-w>gf
+nnoremap <silent> ff :set splitright<CR><C-w>vgf<CR>:set nosplitright<CR>
+"} ===
+
+" Mappings for Arrow Keys ========== {
+
+" Warp mapping for insert mode
+set whichwrap+=<,>,h,l,[,]
+
+" Right Key (Changes window first than try tabs)
+function! WinTabNext()
+    let g:JV_temp = winnr()
+    wincmd l
+    if (g:JV_temp == winnr())
+        tabnext
+    endif
+endfunction
+
+" Left Key (Changes window first than try tabs)
+function! WinTabPrev()
+    let g:JV_temp = winnr()
+    wincmd h
+    if (g:JV_temp == winnr())
+        tabprev
+    endif
+endfunction
+
+if !exists('$TMUX')
+    nnoremap <silent> <C-Left> :call WinTabPrev()<CR>
+    nnoremap <silent> <C-Right> :call WinTabNext()<CR>
+    nnoremap <silent> <Leader><Left> :call WinTabPrev()<CR>
+    nnoremap <silent> <Leader><Right> :call WinTabNext()<CR>
+
+    nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+    nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
+else
+    nnoremap <C-Right> <C-w>l
+    nnoremap <C-Left> <C-w>h
+    nnoremap <Leader><Right> <C-w>l
+    nnoremap <Leader><Left> <C-w>h
+endif
+
+" Ctrl Up/Down Only changes windows
+nnoremap <C-Up> <C-w>k
+nnoremap <C-Down> <C-w>j
+nnoremap <Leader><Up> <C-w>k
+nnoremap <Leader><Down> <C-w>j
+"} ===
+
+" Easier moving of code block indents ========== {
+" Go into visual mode (v), then select several lines of code
+" " then press ``>`` several times.
+vnoremap < <gv
+vnoremap > >gv
+"} ===
+
+" Clear current search highlight ========= {
+" Use ''<Leader>/'' or ''Ctrl+n''
+nnoremap <silent> <leader>/ :nohlsearch<CR>
+nnoremap <silent> <C-n> :nohlsearch<CR>
+"} ===
+
+" Better Saving and Quiting ========== {
+cnoremap W w
+cnoremap W! w!
+cnoremap Q q
+cnoremap Q! q!
+cnoremap Wall wall
+cnoremap Wall! wall!
+"} ===
+
+" Paste Mode Toggle ========== {
+" Use ''<leader>p''
+set pastetoggle=<leader>p
+"} ===
+
+" Normal/Visual <tab> for jumping bracket pairs ========== {
+nmap <tab> %
+"} ===
+
+" Select Visual ======= {
+inoremap <S-home> <ESC>v^
+inoremap <S-home> <ESC>v^
+nnoremap <S-end> <ESC>v$<Left>
+nnoremap <S-end> <ESC>v$<Left>
+"} ===
+
+" Conceal Toggle <F2> ====== {
+set conceallevel=2
+nnoremap <silent> <F2> :let &conceallevel = ( &conceallevel == 2 ? 0 : 2 )<CR>
+"} ===
+

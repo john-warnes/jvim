@@ -1,0 +1,32 @@
+"=================================================================
+" Persistent_Undo {
+"=================================================================
+" vim: set filetype=vim:
+
+
+"=================================================================
+" Include Guard
+"=================================================================
+let g:Jvim#presistentUndo#loaded = get(g:, 'Jvim#presistentUndo#loaded', 0)
+if (g:Jvim#presistentUndo#loaded)
+    finish
+endif
+let g:Jvim#presistentUndo#loaded=1
+
+if !has('persistent_undo')
+    finish
+endif
+
+
+"=================================================================
+" Persistent_Undo
+"=================================================================
+let g:Jvim#presistentUndo#dir = get(g:, 'Jvim#presistentUndo#dir', expand($DOTFILES.'/vim/undo')) " Where to store persistent files
+
+if (g:Jvim#presistentUndo#enable)
+    silent! call mkdir(g:Jvim#presistentUndo#dir) " Create directory if needed
+    let &undodir=g:Jvim#presistentUndo#dir        " Tell vim to use directory
+    set undofile                                  " Tell vim to use a undo file
+else
+    set noundofile                                " Do not set undo files
+endif

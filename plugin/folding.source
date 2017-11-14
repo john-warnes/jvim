@@ -1,0 +1,97 @@
+"=================================================================
+" Vim Folding {
+"=================================================================
+" vim: set filetype=vim:
+
+
+"=================================================================
+" Include Guard
+"=================================================================
+let g:Jvim#folding#loaded = get(g:, 'Jvim#folding#loaded', 0)
+if (g:Jvim#folding#loaded)
+    finish
+endif
+let g:Jvim#folding#loaded=1
+
+
+"=================================================================
+" Vim Folding
+"=================================================================
+if (g:Jvim#folding#defaultFolding == 0)
+    finish
+endif
+
+
+
+"=================================================================
+" Vim Folding
+"=================================================================
+if (g:Jvim#folding#enableSyntax)
+    set foldminlines=3
+    set foldmethod=syntax " NOTE foldmethod=syntax can be VERY slow
+endif
+
+
+"=================================================================
+" Vim Save and Load Foldings
+"=================================================================
+if (g:Jvim#folding#defaultFolding == 3)
+    set foldlevelstart=20
+
+    augroup saveLoadFolding
+        autocmd!
+        autocmd BufWinLeave * mkview
+        autocmd BufWinEnter * silent! loadview
+    augroup END
+endif
+
+
+"=================================================================
+" Auto Open all Folds
+"=================================================================
+function! OpenAllFolds()
+    if (&l:modifiable && filereadable(expand('%')) && line('$') > 100)
+        normal! zR
+    endif
+endfunction
+
+if (g:Jvim#folding#defaultFolding == 1)
+    augroup autoOpenAllFolds
+        autocmd!
+        autocmd BufWinEnter * call OpenAllFolds()
+    augroup end
+endif
+
+
+"=================================================================
+" Auto Close all Folds
+"=================================================================
+function! CloseAllFolds()
+    if (&l:modifiable && filereadable(expand('%')) && line('$') > 100)
+        normal! zM
+    endif
+endfunction
+
+if (g:Jvim#folding#defaultFolding == 2)
+    augroup autoCloseAllFolds
+        autocmd!
+        autocmd BufWinEnter * call CloseAllFolds()
+    augroup end
+endif
+
+
+"=================================================================
+" Only Any Folds the cursor is hidden by
+"=================================================================
+function! OpenCursorFold()
+    if (&l:modifiable && filereadable(expand('%')) && line('$') > 100)
+        " open only fold with cursor
+        normal! zv
+    endif
+endfunction
+
+augroup autoOpenCursorFold
+    autocmd!
+    autocmd BufWinEnter * call OpenCursorFold()
+augroup end
+

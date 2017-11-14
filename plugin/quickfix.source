@@ -1,0 +1,42 @@
+"=================================================================
+" Fix Quick Fix Window Height
+"=================================================================
+" vim: set filetype=vim:
+
+
+"=================================================================
+" Include Guard
+"=================================================================
+let g:Jvim#quickfix#loaded = get(g:, 'Jvim#quickfix#loaded', 0)
+if (g:Jvim#quickfix#loaded)
+    finish
+endif
+let g:Jvim#quickfix#loaded=1
+
+
+if (g:Jvim#quickFix#enable)
+    finish
+endif
+
+
+"=================================================================
+" Fix Quick Fix Window Height
+"=================================================================
+" :cw to open window
+function! AdjustWindowHeight(minheight, maxheight)
+    let l:l = 1
+    let l:n_lines = 0
+    let l:w_width = winwidth(0)
+    while l:l <= line('$')
+        " number to float for division
+        let l:l_len = strlen(getline(l:l)) + 0.0
+        let l:line_width = l:l_len/l:w_width
+        let l:n_lines += float2nr(ceil(l:line_width))
+        let l:l += 1
+    endwhile
+    exe max([min([l:n_lines, a:maxheight]), a:minheight]) . 'wincmd _'
+endfunction
+
+augroup audoQuickFixWindowHeight
+    au FileType qf call AdjustWindowHeight(g:Jvim#quickFix#heightMin, g:JV_quickFixHeightMax)
+augroup end

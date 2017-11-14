@@ -1,0 +1,107 @@
+"=================================================================
+" Hidden Characters 
+"=================================================================
+" vim: set filetype=vim:
+
+
+"=================================================================
+" Include Guard
+"=================================================================
+let g:Jvim#hidden#loaded = get(g:, 'Jvim#hidden#loaded', 0)
+if (g:Jvim#hidden#loaded)
+    finish
+endif
+let g:Jvim#hidden#loaded=1
+
+
+"=================================================================
+" Hidden characters
+"=================================================================
+set listchars=tab:\»\ ,nbsp:␣,extends:»,precedes:«
+
+
+"=================================================================
+" Show EOL
+"=================================================================
+if (g:Jvim#hidden#showEol)
+    set listchars+=eol:↲
+endif
+
+
+
+"=================================================================
+" Trailing white spaces
+"=================================================================
+if (g:Jvim#hidden#showTrailing)
+    set listchars+=trail:·
+
+    " set color for trailing spaces
+    highlight clear SpecialKey
+    execute 'highlight link SpecialKey ' . g:Jvim#highlightRed
+
+"    augroup JV_trailingSpaceColorFix
+"        autocmd!
+"        autocmd ColorScheme *
+"                    \ highlight clear SpecialKey |
+"                    \ execute 'highlight link SpecialKey ' . g:JV_red
+"    augroup end
+
+endif
+
+
+"=================================================================
+" Check if you have support for conceal
+"=================================================================
+if (!has('conceal'))
+    finish
+endif
+
+
+"=================================================================
+" codePretty make some characters pretty
+"=================================================================
+if (g:Jvim#hidden#codePretty)
+
+    " Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie    
+
+    function! codePretty()
+        if !(&fileencoding ==? 'utf-8')
+            return
+        endif
+        " Swap some characters as prettier ones
+        execute 'syntax match Operator "<=" conceal cchar=≤ contained containedin=ALL'
+        execute 'syntax match Operator ">=" conceal cchar=≥ contained containedin=ALL'
+        execute 'syntax match Operator "!=" conceal cchar=≠ contained containedin=ALL'
+        execute 'syntax match Operator /\s\@<=pi\s\@=/ conceal cchar=π contained containedin=ALL'
+        execute 'syntax match Operator /\w\@<=\^2/ conceal cchar=² contained containedin=ALL'
+        execute 'syntax match Operator /\w\@<=\^3/ conceal cchar=³ contained containedin=ALL'
+        execute 'syntax match Operator /\w\@<=\^3/ conceal cchar=³ contained containedin=ALL'
+    endfunction
+
+"    augroup codePrettyAuto
+"        autocmd!
+"        autocmd BufReadPost,BufNewFile * call codePretty()
+"    augroup end
+
+endif
+
+
+"=================================================================
+" Indent Guides
+"=================================================================
+if (g:Jvim#hidden#showIndent)
+
+    function! showIndent()
+        let b:IndentSize = &shiftwidth == 0 ? &tabstop : &shiftwidth
+        execute 'syntax match Indent /^ \+/ containedin=ALL contains=IndentLevel'
+        execute 'syntax match IndentLevel /\v(^( {'.(-b:IndentSize).'})+)@<= ( {0,'.(b:IndentSize-1).'})@=/ conceal cchar=¦ containedin=Indent contains=none'
+    endfunction
+
+"    augroup showIndentAuto
+"        autocmd!
+"        autocmd BufReadPost,BufNewFile * call showIndent()
+"        autocmd ColorScheme gruvbox
+"                    \ highlight clear Conceal |
+"                    \ highlight link Conceal GruvboxGray
+"    augroup end
+endif
