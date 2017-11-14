@@ -29,7 +29,7 @@ let g:Jvim#loaded=1
 let g:Jvim#vimopts#colorColumn        = get(g:, 'Jvim#vimopts#colorColumn', 81)       " Set long line guide
 let g:Jvim#vimopts#useSystemClipboard = get(g:, 'Jvim#vimopts#useSystemClipboard', 1) " Try to use system clipboard
 
-let g:Jvim#highlightRed = get(g:, 'Jvim#hidden#showTrailing', 'g:GruvboxRedBold') " Highlight to link for Red
+let g:Jvim#highlightRed = get(g:, 'Jvim#hidden#showTrailing', 'GruvboxRedBold') " Highlight to link for Red
 
 let g:Jvim#hidden#showTrailing = get(g:, 'Jvim#hidden#showTrailing', 1) " Show Tailing Spaces
 let g:Jvim#hidden#showEol      = get(g:, 'Jvim#hidden#showEol', 0)      " Show EOL marker
