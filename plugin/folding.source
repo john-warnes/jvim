@@ -21,7 +21,7 @@ if (g:Jvim#folding#defaultFolding == 0)
     finish
 endif
 
-setlocal foldcolumn=2
+set foldcolumn=2
 
 
 "=================================================================

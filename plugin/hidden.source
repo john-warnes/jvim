@@ -37,17 +37,17 @@ if (g:Jvim#hidden#showTrailing)
 
     " set color for trailing spaces
     highlight clear SpecialKey
-    execute 'highlight link SpecialKey ' . expand(g:Jvim#highlightRed)
+    execute 'highlight link SpecialKey ' . g:Jvim#highlightRed
 
 
     function! ColorTrailing()
         highlight clear SpecialKey
-        execute 'highlight link SpecialKey ' . expand(g:Jvim#highlightRed)
+        execute 'highlight link SpecialKey ' . g:Jvim#highlightRed
     endfunction
 
     augroup autoShowTrailing
         autocmd!
-        autocmd BufWinEnter * call ColorTrailing()
+        autocmd ColorScheme * call ColorTrailing()
     augroup end
 
 endif

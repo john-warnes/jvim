@@ -3,6 +3,7 @@
 "=================================================================
 " vim: set filetype=vim:
 
+set nolangremap
 
 "=================================================================
 " Include Guard
@@ -160,7 +161,7 @@ set pastetoggle=<leader>p
 "} ===
 
 " Normal/Visual <tab> for jumping bracket pairs ========== {
-nmap <tab> %
+" nmap <tab> %
 "} ===
 
 " Select Visual ======= {
