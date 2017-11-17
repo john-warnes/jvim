@@ -24,23 +24,23 @@ function! g:UpdateMetaData()
         return 1
     endif
 
-    if (b:Jvim_maxline > g:Jvim#metadata#MaxSearch)
+    if (b:Jvim_maxline > g:Jvim#metadata#maxSearch)
         let b:Jvim_maxline = g:Jvim#metadata#MaxSearch
     endif
 
     let l:winview = winsaveview()
     :silent! exe ':0,' . b:Jvim_maxline . 'g/\ \ Revision  /:silent exe "normal! $b\<C-a>"'
-    :silent! exe ':0,' . b:Jvim_maxline . 's/\ \ Modified  \zs.*/\=strftime("' . g:Jvim#metadata#DateFormat . '")/e'
+    :silent! exe ':0,' . b:Jvim_maxline . 's/\ \ Modified  \zs.*/\=strftime("' . g:Jvim#metadata#dateFormat . '")/e'
 
     :silent! exe ':0,' . b:Jvim_maxline . 'g/^#define\ REVISION__ /:silent exe "normal! $\<C-a>"'
-    :silent! exe ':0,' . b:Jvim_maxline . 's/^#define\ MODIFIED__ \zs.*/\=strftime("\"' . g:Jvim#metadata#DateFormat . '\"")/e'
+    :silent! exe ':0,' . b:Jvim_maxline . 's/^#define\ MODIFIED__ \zs.*/\=strftime("\"' . g:Jvim#metadata#dateFormat . '\"")/e'
     noh
     call winrestview(l:winview)
 endfunction
 
 "nnoremap <C-y> :call g:UpdateMetaData()<CR>
 
-if (g:Jvim#metadata#UpdateMetaData == 1)
+if (g:Jvim#metadata#enable)
     augroup autoUpdateMetaData
         autocmd!
         autocmd BufWritePre * :silent! call g:UpdateMetaData()
