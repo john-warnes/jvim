@@ -1,12 +1,12 @@
 "=================================================================
 "                           jvim.vim                             "
 "=================================================================
-"  Revision  588
-"  Modified  A, d B Y
+" vim:foldmarker={,}:foldmethod=marker:
+"=================================================================
+"  Revision  629
+"  Modified  Friday, 17 November 2017
 "=================================================================
 scriptencoding utf-8
-setlocal foldmarker={,}
-setlocal foldmethod=marker
 setlocal keywordprg=:help
 "=================================================================
 
@@ -24,41 +24,41 @@ let g:Jvim#loaded=1
 "=================================================================
 " jvim Setttings {
 "=================================================================
-let g:Jvim#vimopts#colorColumn        = get(g:, 'Jvim#vimopts#colorColumn', 81)       " Set long line guide
+let g:Jvim#vimopts#colorColumn        = get(g:, 'Jvim#vimopts#colorColumn',       81) " Set long line guide
 let g:Jvim#vimopts#useSystemClipboard = get(g:, 'Jvim#vimopts#useSystemClipboard', 1) " Try to use system clipboard
 
 let g:Jvim#highlightRed = get(g:, 'Jvim#hidden#showTrailing', 'GruvboxRedBold') " Highlight to link for Red
 
 let g:Jvim#hidden#showTrailing = get(g:, 'Jvim#hidden#showTrailing', 1) " Show Tailing Spaces
-let g:Jvim#hidden#showEol      = get(g:, 'Jvim#hidden#showEol', 0)      " Show EOL marker
-let g:Jvim#hidden#showIndent   = get(g:, 'Jvim#hidden#showIndent', 0)   " Show indent guides when (F2 Toggle)
-let g:Jvim#hidden#codePretty   = get(g:, 'Jvim#hidden#codePretty', 1)   " Replace some chars with alternatives (F2 Toggle)
+let g:Jvim#hidden#showEol      = get(g:, 'Jvim#hidden#showEol',    0)   " Show EOL marker
+let g:Jvim#hidden#showIndent   = get(g:, 'Jvim#hidden#showIndent', 0)   " Show indent guides when (F2 Toggles)
+let g:Jvim#hidden#codePretty   = get(g:, 'Jvim#hidden#codePretty', 1)   " Replace some chars with alternatives (F2 Toggles)
 
 let g:Jvim#presistentUndo#enable = get(g:, 'Jvim#presistentUndo#enable', 1) " Use persistent Undo
 let g:Jvim#presistentUndo#dir    = get(g:, 'Jvim#presistentUndo#dir', expand($DOTFILES.'/vim/undo')) " Where to store persistent files
 
-let g:Jvim#folding#enableSyntax   = get(g:, 'Jvim#foldingSyntax', 1)  " Enable folding by syntax for all files
-                                                                      "  NOTE: Might be slow on older systems
-let g:Jvim#folding#defaultFolding = get(g:, 'Jvim#foldingDefault', 3) " Folding Mode on File Open
-                                                                      " 0: none default vim
-                                                                      " 1: open all folds on file open
-                                                                      " 2: close all folds on file open
-                                                                      " 3: Auto save folds and reload them
-                                                                      "  NOTE: <t><t> in normal mode to toggle folds
+let g:Jvim#folding#syntax = get(g:, 'Jvim#folding#syntax', 1) " Enable folding by syntax for all files
+                                                              "  NOTE: Might be slow on older systems
+let g:Jvim#folding#fold = get(g:, 'Jvim#folding#fold',     3) " Folding Mode on File Open
+                                                              " 0: none default vim
+                                                              " 1: open all folds on file open
+                                                              " 2: close all folds on file open
+                                                              " 3: Auto save folds and reload them
+                                                              "  NOTE: <t><t> in normal mode to toggle folds
 
-let g:Jvim#quickFix#enable     = get(g:, 'Jvim#quickFix#enable', 0)     " Enable auto resizing of the quick fix window
+let g:Jvim#quickFix#enable     = get(g:, 'Jvim#quickFix#enable',    0)  " Enable auto resizing of the quick fix window
 let g:Jvim#quickFix#heightMin  = get(g:, 'Jvim#quickFix#heightMin', 3)  " Limit the MIN size of the quick fix window
 let g:Jvim#quickFix#heightMax  = get(g:, 'Jvim#quickFix#heightMax', 10) " Limit the MAX size of the quick fix window
 
-let g:Jvim#metadata#UpdateMetaData = get(g:, 'Jvim#metadata#UpdateMetaData', 1) " enable metadata auto update on file save
-let g:Jvim#metadata#DateFormat     = get(g:, 'Jvim#DateFormat', '%A, %d %B %Y') " Format for template and metadata dates (man date)
-let g:Jvim#metadata#MaxSearch      = get(g:, 'Jvim#MaxMetaDataSearch', 50)      " Max lines at top of file to search for meta data tags
+let g:Jvim#metadata#enable     = get(g:, 'Jvim#metadata#enable',     1) " enable metadata auto update on file save
+let g:Jvim#metadata#maxSearch  = get(g:, 'Jvim#metadata#maxSearch', 50) " Max lines at top of file to search for meta data tags
+let g:Jvim#metadata#dateFormat = get(g:, 'Jvim#metadata#dateFormat', '%A, %d %B %Y') " Format for template and metadata dates (man date)
 
-let g:Jvim#comment#enable   = get(g:, 'Jvim#comment#enable', 1)  " Allow comment and uncomment system
+let g:Jvim#comment#enable   = get(g:, 'Jvim#comment#enable', 1) " Allow comment and uncomment system
 
-let g:Jvim#testing#testingEnable = get(g:, 'Jvim#testing#testingEnable', 0) " loaded auto updating of metadata on file save
-let g:Jvim#testing#debugEnable   = get(g:, 'Jvim#testing#debugEnable', 0)   " loaded auto updating of metadata on file save
-let g:Jvim#comment#enable   = get(g:, 'Jvim#comment#enable', 1)   " Allow comment and uncomment system
+" Debuging and testing
+let g:Jvim#testing#enable   = get(g:, 'Jvim#testing#enable', 0) " enable testing area
+let g:Jvim#debug#enable     = get(g:, 'Jvim#debug#enable'  , 0) " enable debug area
 "} ===
 
 
@@ -194,8 +194,9 @@ execute 'source ' . s:path . '/' . 'keymaps.source'
 "=================================================================
 execute 'source ' . s:path . '/' . 'comment.source'
 
+
 "=================================================================
-" Quickfix window
+" Quick fix window
 "=================================================================
 execute 'source ' . s:path . '/' . 'quickfix.source'
 
