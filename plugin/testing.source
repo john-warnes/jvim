@@ -4,6 +4,22 @@
 " vim: set filetype=vim:
 
 
+"=================================================================
+" Include Guard
+"=================================================================
+let g:Jvim#testing#loaded = get(g:, 'Jvim#quickfix#loaded', 0)
+if (g:Jvim#testing#loaded)
+    finish
+endif
+let g:Jvim#testing#loaded=1
+
+if (g:Jvim#testing#enable)
+    finish
+endif
+
+"=================================================================
+" Testing
+"=================================================================
 " Allow the menu in Term mode
 if !has('gui_running')
     source $VIMRUNTIME/menu.vim
@@ -83,106 +99,108 @@ augroup end
 "
 "} ===
 
-"return
 
-let g:JV_DebugMode = 0
+"=================================================================
+" Debug
+"=================================================================
+if (g:Jvim#debug#enable)
 
+    augroup JVEventLogger
+        autocmd!
+        autocmd BufNewFile           * call g:JVLog('BufNewFile')
+        autocmd BufReadPre           * call g:JVLog('BufReadPre')
+        autocmd BufRead              * call g:JVLog('BufRead')
+        autocmd BufReadPost          * call g:JVLog('BufReadPost')
+        "    autocmd BufReadCmd           * call g:JVLog('BufReadCmd')
+        autocmd FileReadPre          * call g:JVLog('FileReadPre')
+        autocmd FileReadPost         * call g:JVLog('FileReadPost')
+        "    autocmd FileReadCmd          * call g:JVLog('FileReadCmd')
+        autocmd FilterReadPre        * call g:JVLog('FilterReadPre')
+        autocmd FilterReadPost       * call g:JVLog('FilterReadPost')
+        autocmd StdinReadPre         * call g:JVLog('StdinReadPre')
+        autocmd StdinReadPost        * call g:JVLog('StdinReadPost')
+        autocmd BufWrite             * call g:JVLog('BufWrite')
+        autocmd BufWritePre          * call g:JVLog('BufWritePre')
+        autocmd BufWritePost         * call g:JVLog('BufWritePost')
+        "    autocmd BufWriteCmd          * call g:JVLog('BufWriteCmd')
+        autocmd FileWritePre         * call g:JVLog('FileWritePre')
+        autocmd FileWritePost        * call g:JVLog('FileWritePost')
+        "    autocmd FileWriteCmd         * call g:JVLog('FileWriteCmd')
+        autocmd FileAppendPre        * call g:JVLog('FileAppendPre')
+        autocmd FileAppendPost       * call g:JVLog('FileAppendPost')
+        "    autocmd FileAppendCmd        * call g:JVLog('FileAppendCmd')
+        autocmd FilterWritePre       * call g:JVLog('FilterWritePre')
+        autocmd FilterWritePost      * call g:JVLog('FilterWritePost')
+        autocmd BufAdd               * call g:JVLog('BufAdd')
+        autocmd BufCreate            * call g:JVLog('BufCreate')
+        autocmd BufDelete            * call g:JVLog('BufDelete')
+        autocmd BufWipeout           * call g:JVLog('BufWipeout')
+        autocmd BufFilePre           * call g:JVLog('BufFilePre')
+        autocmd BufFilePost          * call g:JVLog('BufFilePost')
+        autocmd BufEnter             * call g:JVLog('BufEnter')
+        autocmd BufLeave             * call g:JVLog('BufLeave')
+        autocmd BufWinEnter          * call g:JVLog('BufWinEnter')
+        autocmd BufWinLeave          * call g:JVLog('BufWinLeave')
+        autocmd BufUnload            * call g:JVLog('BufUnload')
+        autocmd BufHidden            * call g:JVLog('BufHidden')
+        autocmd BufNew               * call g:JVLog('BufNew')
+        autocmd SwapExists           * call g:JVLog('SwapExists')
+        autocmd FileType             * call g:JVLog('FileType')
+        autocmd Syntax               * call g:JVLog('Syntax')
+        autocmd EncodingChanged      * call g:JVLog('EncodingChanged')
+        autocmd TermChanged          * call g:JVLog('TermChanged')
+        autocmd VimEnter             * call g:JVLog('VimEnter')
+        autocmd GUIEnter             * call g:JVLog('GUIEnter')
+        autocmd GUIFailed            * call g:JVLog('GUIFailed')
+        autocmd TermResponse         * call g:JVLog('TermResponse')
+        autocmd QuitPre              * call g:JVLog('QuitPre')
+        autocmd VimLeavePre          * call g:JVLog('VimLeavePre')
+        autocmd VimLeave             * call g:JVLog('VimLeave')
+        autocmd FileChangedShell     * call g:JVLog('FileChangedShell')
+        autocmd FileChangedShellPost * call g:JVLog('FileChangedShellPost')
+        autocmd FileChangedRO        * call g:JVLog('FileChangedRO')
+        autocmd ShellCmdPost         * call g:JVLog('ShellCmdPost')
+        autocmd ShellFilterPost      * call g:JVLog('ShellFilterPost')
+        autocmd FuncUndefined        * call g:JVLog('FuncUndefined')
+        autocmd SpellFileMissing     * call g:JVLog('SpellFileMissing')
+        autocmd SourcePre            * call g:JVLog('SourcePre')
+        "    autocmd SourceCmd            * call g:JVLog('SourceCmd')
+        autocmd VimResized           * call g:JVLog('VimResized')
+        autocmd FocusGained          * call g:JVLog('FocusGained')
+        autocmd FocusLost            * call g:JVLog('FocusLost')
+        autocmd CursorHold           * call g:JVLog('CursorHold')
+        autocmd CursorHoldI          * call g:JVLog('CursorHoldI')
+        autocmd CursorMoved          * call g:JVLog('CursorMoved')
+        autocmd CursorMovedI         * call g:JVLog('CursorMovedI')
+        autocmd WinEnter             * call g:JVLog('WinEnter')
+        autocmd WinLeave             * call g:JVLog('WinLeave')
+        autocmd TabEnter             * call g:JVLog('TabEnter')
+        autocmd TabLeave             * call g:JVLog('TabLeave')
+        "    autocmd CmdwinEnter          * call g:JVLog('CmdwinEnter')
+        "    autocmd CmdwinLeave          * call g:JVLog('CmdwinLeave')
+        autocmd InsertEnter          * call g:JVLog('InsertEnter')
+        autocmd InsertChange         * call g:JVLog('InsertChange')
+        autocmd InsertLeave          * call g:JVLog('InsertLeave')
+        autocmd InsertCharPre        * call g:JVLog('InsertCharPre')
+        autocmd TextChanged          * call g:JVLog('TextChanged')
+        autocmd TextChangedI         * call g:JVLog('TextChangedI')
+        autocmd ColorScheme          * call g:JVLog('ColorScheme')
+        autocmd RemoteReply          * call g:JVLog('RemoteReply')
+        "    autocmd QuickFixCmdPre       * call g:JVLog('QuickFixCmdPre')
+        "    autocmd QuickFixCmdPost      * call g:JVLog('QuickFixCmdPost')
+        autocmd SessionLoadPost      * call g:JVLog('SessionLoadPost')
+        autocmd MenuPopup            * call g:JVLog('MenuPopup')
+        autocmd CompleteDone         * call g:JVLog('CompleteDone')
+        autocmd User                 * call g:JVLog('User')
+    augroup end
 
-augroup JVEventLogger
-    autocmd!
-    autocmd BufNewFile           * call g:JVLog('BufNewFile')
-    autocmd BufReadPre           * call g:JVLog('BufReadPre')
-    autocmd BufRead              * call g:JVLog('BufRead')
-    autocmd BufReadPost          * call g:JVLog('BufReadPost')
-"    autocmd BufReadCmd           * call g:JVLog('BufReadCmd')
-    autocmd FileReadPre          * call g:JVLog('FileReadPre')
-    autocmd FileReadPost         * call g:JVLog('FileReadPost')
-"    autocmd FileReadCmd          * call g:JVLog('FileReadCmd')
-    autocmd FilterReadPre        * call g:JVLog('FilterReadPre')
-    autocmd FilterReadPost       * call g:JVLog('FilterReadPost')
-    autocmd StdinReadPre         * call g:JVLog('StdinReadPre')
-    autocmd StdinReadPost        * call g:JVLog('StdinReadPost')
-    autocmd BufWrite             * call g:JVLog('BufWrite')
-    autocmd BufWritePre          * call g:JVLog('BufWritePre')
-    autocmd BufWritePost         * call g:JVLog('BufWritePost')
-"    autocmd BufWriteCmd          * call g:JVLog('BufWriteCmd')
-    autocmd FileWritePre         * call g:JVLog('FileWritePre')
-    autocmd FileWritePost        * call g:JVLog('FileWritePost')
-"    autocmd FileWriteCmd         * call g:JVLog('FileWriteCmd')
-    autocmd FileAppendPre        * call g:JVLog('FileAppendPre')
-    autocmd FileAppendPost       * call g:JVLog('FileAppendPost')
-"    autocmd FileAppendCmd        * call g:JVLog('FileAppendCmd')
-    autocmd FilterWritePre       * call g:JVLog('FilterWritePre')
-    autocmd FilterWritePost      * call g:JVLog('FilterWritePost')
-    autocmd BufAdd               * call g:JVLog('BufAdd')
-    autocmd BufCreate            * call g:JVLog('BufCreate')
-    autocmd BufDelete            * call g:JVLog('BufDelete')
-    autocmd BufWipeout           * call g:JVLog('BufWipeout')
-    autocmd BufFilePre           * call g:JVLog('BufFilePre')
-    autocmd BufFilePost          * call g:JVLog('BufFilePost')
-    autocmd BufEnter             * call g:JVLog('BufEnter')
-    autocmd BufLeave             * call g:JVLog('BufLeave')
-    autocmd BufWinEnter          * call g:JVLog('BufWinEnter')
-    autocmd BufWinLeave          * call g:JVLog('BufWinLeave')
-    autocmd BufUnload            * call g:JVLog('BufUnload')
-    autocmd BufHidden            * call g:JVLog('BufHidden')
-    autocmd BufNew               * call g:JVLog('BufNew')
-    autocmd SwapExists           * call g:JVLog('SwapExists')
-    autocmd FileType             * call g:JVLog('FileType')
-    autocmd Syntax               * call g:JVLog('Syntax')
-    autocmd EncodingChanged      * call g:JVLog('EncodingChanged')
-    autocmd TermChanged          * call g:JVLog('TermChanged')
-    autocmd VimEnter             * call g:JVLog('VimEnter')
-    autocmd GUIEnter             * call g:JVLog('GUIEnter')
-    autocmd GUIFailed            * call g:JVLog('GUIFailed')
-    autocmd TermResponse         * call g:JVLog('TermResponse')
-    autocmd QuitPre              * call g:JVLog('QuitPre')
-    autocmd VimLeavePre          * call g:JVLog('VimLeavePre')
-    autocmd VimLeave             * call g:JVLog('VimLeave')
-    autocmd FileChangedShell     * call g:JVLog('FileChangedShell')
-    autocmd FileChangedShellPost * call g:JVLog('FileChangedShellPost')
-    autocmd FileChangedRO        * call g:JVLog('FileChangedRO')
-    autocmd ShellCmdPost         * call g:JVLog('ShellCmdPost')
-    autocmd ShellFilterPost      * call g:JVLog('ShellFilterPost')
-    autocmd FuncUndefined        * call g:JVLog('FuncUndefined')
-    autocmd SpellFileMissing     * call g:JVLog('SpellFileMissing')
-    autocmd SourcePre            * call g:JVLog('SourcePre')
-"    autocmd SourceCmd            * call g:JVLog('SourceCmd')
-    autocmd VimResized           * call g:JVLog('VimResized')
-    autocmd FocusGained          * call g:JVLog('FocusGained')
-    autocmd FocusLost            * call g:JVLog('FocusLost')
-    autocmd CursorHold           * call g:JVLog('CursorHold')
-    autocmd CursorHoldI          * call g:JVLog('CursorHoldI')
-    autocmd CursorMoved          * call g:JVLog('CursorMoved')
-    autocmd CursorMovedI         * call g:JVLog('CursorMovedI')
-    autocmd WinEnter             * call g:JVLog('WinEnter')
-    autocmd WinLeave             * call g:JVLog('WinLeave')
-    autocmd TabEnter             * call g:JVLog('TabEnter')
-    autocmd TabLeave             * call g:JVLog('TabLeave')
-"    autocmd CmdwinEnter          * call g:JVLog('CmdwinEnter')
-"    autocmd CmdwinLeave          * call g:JVLog('CmdwinLeave')
-    autocmd InsertEnter          * call g:JVLog('InsertEnter')
-    autocmd InsertChange         * call g:JVLog('InsertChange')
-    autocmd InsertLeave          * call g:JVLog('InsertLeave')
-    autocmd InsertCharPre        * call g:JVLog('InsertCharPre')
-    autocmd TextChanged          * call g:JVLog('TextChanged')
-    autocmd TextChangedI         * call g:JVLog('TextChangedI')
-    autocmd ColorScheme          * call g:JVLog('ColorScheme')
-    autocmd RemoteReply          * call g:JVLog('RemoteReply')
-"    autocmd QuickFixCmdPre       * call g:JVLog('QuickFixCmdPre')
-"    autocmd QuickFixCmdPost      * call g:JVLog('QuickFixCmdPost')
-    autocmd SessionLoadPost      * call g:JVLog('SessionLoadPost')
-    autocmd MenuPopup            * call g:JVLog('MenuPopup')
-    autocmd CompleteDone         * call g:JVLog('CompleteDone')
-    autocmd User                 * call g:JVLog('User')
-augroup end
+    function! g:JVLog(eventName) abort
+        if (g:Jvim#debug#enable == 1)
+            silent! execute '!echo '.a:eventName.' >> ~/vim.log'
+        endif
+    endfunction
 
-function! g:JVLog(eventName) abort
-    if (g:JV_DebugMode == 1)
-        silent! execute '!echo '.a:eventName.' >> ~/vim.log'
-    endif
-endfunction
-
+endif
 
 " Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie    
 " EOF
