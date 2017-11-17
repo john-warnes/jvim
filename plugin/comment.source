@@ -14,15 +14,82 @@ if (g:Jvim#comment#loaded)
 endif
 let g:Jvim#comment#loaded=1
 
-
 if (!g:Jvim#comment#enable)
     finish
 endif
 
+"=================================================================
+" Fucntions
+"=================================================================
+function! Jvim_Comment()
+    if index(['c','h','cpp','hpp'],&filetype)>=0
+        let s:c='//'
+    elseif index(['vim'],&filetype)>=0
+        let s:c='"'
+    elseif index(['python','sh'],&filetype)>=0
+        let s:c='#'
+    else
+        echom "Jvim#comment -> &filetype not supported"
+        return
+    endif
+    exe "normal! ^i" . s:c
+endfunction
 
-" Mapping for comment and uncomment ======= {
+
+function! Jvim_Uncomment() range
+    :nohlsearch
+    if index(['c','h','cpp','hpp'],&filetype)>=0
+        let s:c='\/\/'
+    elseif index(['vim'],&filetype)>=0
+        let s:c='\"'
+    elseif index(['python','sh'],&filetype)>=0
+        let s:c='#'
+    else
+        echom "Jvim#comment -> &filetype not supported"
+        return
+    endif
+    :silent! exe ':'.a:firstline.','.a:lastline.'s/\(^\s*\)'. s:c . '/\1/g'
+endfunction
+
+
+function! Jvim_CommentToggle()
+    :nohlsearch
+    if index(['c','h','cpp','hpp'],&filetype)>=0
+        let s:c='//'
+    elseif index(['vim'],&filetype)>=0
+        let s:c='\"'
+    elseif index(['python','sh'],&filetype)>=0
+        let s:c='#'
+    else
+        echom "Jvim#comment -> &filetype not supported"
+        return
+    endif
+
+    if getline('.') =~ "^ *".s:c
+        "echom "HAS"
+        call Jvim_Uncomment()
+        ":silent! exe ':^,$'.'s/\(^\s*\)'. s:c . '/\1/g'
+    else
+        "echom "not"
+        call Jvim_Comment()
+        "exe "normal! ^i" . s:c
+    endif
+
+endfunction
+
+
+
+"=================================================================
+" Mappings
+"=================================================================
+
 " Ctrl+/
-vnoremap <C-_> :normal! wi//<ESC>
+vnoremap <C-_> :call Jvim_CommentToggle()<CR>
+nnoremap <C-_> :call Jvim_CommentToggle()<CR>
+"vnoremap <C-_> :call Jvim_Comment()<CR>
+
 " Ctrl+Shift+/
-vnoremap <C-?> :g/^\s*\/\//:normal! wxx<CR>:noh<CR>
-"} ===
+"vnoremap <C-?> :call Jvim_Uncomment()<CR>
+
+"vnoremap <C-_> :normal! wi//<ESC>
+"vnoremap <C-?> :g/^\s*\/\//:normal! wxx<CR>:noh<CR>
