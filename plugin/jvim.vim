@@ -1,8 +1,8 @@
 "=================================================================
 "                           jvim.vim                             "
 "=================================================================
-"  Revision  573
-"  Modified  Wednesday, 15 November 2017
+"  Revision  588
+"  Modified  A, d B Y
 "=================================================================
 scriptencoding utf-8
 setlocal foldmarker={,}
@@ -37,7 +37,7 @@ let g:Jvim#hidden#codePretty   = get(g:, 'Jvim#hidden#codePretty', 1)   " Replac
 let g:Jvim#presistentUndo#enable = get(g:, 'Jvim#presistentUndo#enable', 1) " Use persistent Undo
 let g:Jvim#presistentUndo#dir    = get(g:, 'Jvim#presistentUndo#dir', expand($DOTFILES.'/vim/undo')) " Where to store persistent files
 
-let g:Jvim#folding#enableSyntax   = get(g:, 'Jvim#foldingSyntax', 0)  " Enable folding by syntax for all files
+let g:Jvim#folding#enableSyntax   = get(g:, 'Jvim#foldingSyntax', 1)  " Enable folding by syntax for all files
                                                                       "  NOTE: Might be slow on older systems
 let g:Jvim#folding#defaultFolding = get(g:, 'Jvim#foldingDefault', 3) " Folding Mode on File Open
                                                                       " 0: none default vim
@@ -50,12 +50,15 @@ let g:Jvim#quickFix#enable     = get(g:, 'Jvim#quickFix#enable', 0)     " Enable
 let g:Jvim#quickFix#heightMin  = get(g:, 'Jvim#quickFix#heightMin', 3)  " Limit the MIN size of the quick fix window
 let g:Jvim#quickFix#heightMax  = get(g:, 'Jvim#quickFix#heightMax', 10) " Limit the MAX size of the quick fix window
 
+let g:Jvim#metadata#UpdateMetaData = get(g:, 'Jvim#metadata#UpdateMetaData', 1) " enable metadata auto update on file save
 let g:Jvim#metadata#DateFormat     = get(g:, 'Jvim#DateFormat', '%A, %d %B %Y') " Format for template and metadata dates (man date)
 let g:Jvim#metadata#MaxSearch      = get(g:, 'Jvim#MaxMetaDataSearch', 50)      " Max lines at top of file to search for meta data tags
-let g:Jvim#metadata#UpdateMetaData = get(g:, 'Jvim#metadata#UpdateMetaData', 1) " Loaded auto updating of metadata on file save
+
+let g:Jvim#comment#enable   = get(g:, 'Jvim#comment#enable', 1)  " Allow comment and uncomment system
 
 let g:Jvim#testing#testingEnable = get(g:, 'Jvim#testing#testingEnable', 0) " loaded auto updating of metadata on file save
 let g:Jvim#testing#debugEnable   = get(g:, 'Jvim#testing#debugEnable', 0)   " loaded auto updating of metadata on file save
+let g:Jvim#comment#enable   = get(g:, 'Jvim#comment#enable', 1)   " Allow comment and uncomment system
 "} ===
 
 
@@ -165,7 +168,7 @@ execute 'source ' . s:path . '/' . 'hidden.source'
 "=================================================================
 " folding
 "=================================================================
-"execute 'source ' . s:path . '/' . 'folding.source'
+execute 'source ' . s:path . '/' . 'folding.source'
 
 
 "=================================================================
@@ -185,6 +188,11 @@ execute 'source ' . s:path . '/' . 'metadata.source'
 "=================================================================
 execute 'source ' . s:path . '/' . 'keymaps.source'
 
+
+"=================================================================
+" Comment and uncomment
+"=================================================================
+execute 'source ' . s:path . '/' . 'comment.source'
 
 "=================================================================
 " Quickfix window

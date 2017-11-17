@@ -18,9 +18,8 @@ let g:Jvim#metadata#loaded=1
 " MetaData
 "=================================================================
 function! g:UpdateMetaData()
-    
+
     let b:Jvim_maxline = line('$')
-    
     if !(&l:modifiable) || (b:Jvim_maxline == 1)
         return 1
     endif
@@ -39,7 +38,7 @@ function! g:UpdateMetaData()
     call winrestview(l:winview)
 endfunction
 
-nnoremap <C-y> :call g:UpdateMetaData()<CR>
+"nnoremap <C-y> :call g:UpdateMetaData()<CR>
 
 if (g:Jvim#metadata#UpdateMetaData == 1)
     augroup autoUpdateMetaData

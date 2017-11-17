@@ -1,0 +1,28 @@
+"=================================================================
+" comment and uncomment system
+"=================================================================
+" vim: set filetype=vim:
+
+set nolangremap
+
+"=================================================================
+" Include Guard
+"=================================================================
+let g:Jvim#comment#loaded = get(g:, 'Jvim#comment#loaded', 0)
+if (g:Jvim#comment#loaded)
+    finish
+endif
+let g:Jvim#comment#loaded=1
+
+
+if (!g:Jvim#comment#enable)
+    finish
+endif
+
+
+" Mapping for comment and uncomment ======= {
+" Ctrl+/
+vnoremap <C-_> :normal! wi//<ESC>
+" Ctrl+Shift+/
+vnoremap <C-?> :g/^\s*\/\//:normal! wxx<CR>:noh<CR>
+"} ===

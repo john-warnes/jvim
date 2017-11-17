@@ -41,8 +41,10 @@ if (g:Jvim#folding#defaultFolding == 3)
 
     augroup saveLoadFolding
         autocmd!
-        autocmd BufWinLeave * mkview
-        autocmd BufWinEnter * silent! loadview
+        if (&l:modifiable && filereadable(expand('%')) && line('$') > 100)
+            autocmd BufWinLeave * mkview
+            autocmd BufWinEnter * silent! loadview
+        endif
     augroup end
 endif
 
