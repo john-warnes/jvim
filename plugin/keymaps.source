@@ -85,7 +85,27 @@ nnoremap <silent> <C-w>= :set splitbelow<CR>:new<CR>:set nosplitbelow<CR>
 "  <ft> open file in new tab
 "  <ff> open file in new v split window
 nnoremap ft <C-w>gf
-nnoremap <silent> ff :set splitright<CR><C-w>vgf<CR>:set nosplitright<CR>
+"nnoremap <silent> ff :set splitright<CR><C-w>vgf<CR>:set nosplitright<CR>
+
+function! JvimSplitWin()
+    if ( (winheight(0)*2) >= winwidth(0) )
+        echom "Vert"
+        set splitbelow
+        :split
+        normal! gf
+        :wincmd x
+        set nosplitbelow
+    else
+        echom "Horz"
+        "set splitright
+        :vsplit
+        normal! gf
+        :wincmd x
+        "set nosplitright
+    endif
+endfunction
+
+nnoremap <silent> ff :silent! call JvimSplitWin()<CR>
 "} ===
 
 " Mappings for Arrow Keys ========== {
@@ -114,21 +134,18 @@ endfunction
 if !exists('$TMUX')
     nnoremap <silent> <C-Left> :call WinTabPrev()<CR>
     nnoremap <silent> <C-Right> :call WinTabNext()<CR>
-    nnoremap <silent> <Leader><Left> :call WinTabPrev()<CR>
-    nnoremap <silent> <Leader><Right> :call WinTabNext()<CR>
-
-    nnoremap <silent> <A-Left> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
-    nnoremap <silent> <A-Right> :execute 'silent! tabmove ' . (tabpagenr()+1)<CR>
+    nnoremap <C-Up> <C-w>k
+    nnoremap <C-Down> <C-w>j
 else
-    nnoremap <C-Right> <C-w>l
-    nnoremap <C-Left> <C-w>h
-    nnoremap <Leader><Right> <C-w>l
-    nnoremap <Leader><Left> <C-w>h
+    nnoremap <C-Right> :TmuxNavigateRight<CR>
+    nnoremap <C-Left> :TmuxNavigateLeft<CR>
+    nnoremap <C-Up> :TmuxNavigateUp<CR>
+    nnoremap <C-Down> :TmuxNavigateDown<CR>
 endif
 
 " Ctrl Up/Down Only changes windows
-nnoremap <C-Up> <C-w>k
-nnoremap <C-Down> <C-w>j
+nnoremap <Leader><Left> <C-w>h
+nnoremap <Leader><Right> <C-w>l
 nnoremap <Leader><Up> <C-w>k
 nnoremap <Leader><Down> <C-w>j
 "} ===
@@ -171,4 +188,11 @@ nnoremap <S-end> <ESC>v$<Left>
 nnoremap <S-end> <ESC>v$<Left>
 "} ===
 
+
+" Commands ============ {
+
+command JvimEdit :tabnew ~/.vimrc | :tabnew ~/.vim/bundle/jvim/plugin/jvim.vim
+
+
+"} ===
 
