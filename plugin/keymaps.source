@@ -137,10 +137,10 @@ if !exists('$TMUX')
     nnoremap <C-Up> <C-w>k
     nnoremap <C-Down> <C-w>j
 else
-    nnoremap <C-Right> :TmuxNavigateRight<CR>
-    nnoremap <C-Left> :TmuxNavigateLeft<CR>
-    nnoremap <C-Up> :TmuxNavigateUp<CR>
-    nnoremap <C-Down> :TmuxNavigateDown<CR>
+    nmap <C-Right> <C-l>
+    nmap <C-Left> <C-h>
+    nmap <C-Up> <C-j>
+    nmap <C-Down> <C-k>
 endif
 
 " Ctrl Up/Down Only changes windows
