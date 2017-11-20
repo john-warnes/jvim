@@ -139,8 +139,8 @@ if !exists('$TMUX')
 else
     nmap <C-Right> <C-l>
     nmap <C-Left> <C-h>
-    nmap <C-Up> <C-j>
-    nmap <C-Down> <C-k>
+    nmap <C-Up> <C-k>
+    nmap <C-Down> <C-j>
 endif
 
 " Ctrl Up/Down Only changes windows
@@ -183,9 +183,10 @@ set pastetoggle=<leader>p
 
 " Select Visual ======= {
 inoremap <S-home> <ESC>v^
-inoremap <S-home> <ESC>v^
-nnoremap <S-end> <ESC>v$<Left>
-nnoremap <S-end> <ESC>v$<Left>
+inoremap <S-end> <ESC>v$<Left>
+
+nnoremap <S-home> v^
+nnoremap <S-end> v$<Left>
 "} ===
 
 

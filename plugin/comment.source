@@ -45,8 +45,9 @@ function! Jvim_Uncomment() range
     elseif index(['python','sh'],&filetype)>=0
         let s:c='#'
     else
-        echom "Jvim#comment -> &filetype not supported"
-        return
+        let s:c='#'
+        "echom "Jvim#comment -> &filetype not supported"
+        "return
     endif
     :silent! exe ':'.a:firstline.','.a:lastline.'s/\(^\s*\)'. s:c . '/\1/g'
 endfunction
