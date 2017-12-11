@@ -176,13 +176,12 @@ set pastetoggle=<leader>p
 "} ===
 
 " Normal/Visual <tab> for jumping bracket pairs ========== {
-" nmap <tab> %
+nmap <tab> %
 "} ===
 
 " Select Visual ======= {
 inoremap <S-home> <ESC>v^
 inoremap <S-end> <ESC>v$<Left>
-
 nnoremap <S-home> v^
 nnoremap <S-end> v$<Left>
 "} ===
