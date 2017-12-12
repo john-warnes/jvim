@@ -18,6 +18,10 @@ let g:Jvim#metadata#loaded=1
 " MetaData
 "=================================================================
 function! g:UpdateMetaData()
+    echoerr " l:modified = &l:modified "
+    if (&l:modified != 1)
+        return
+    endif
 
     let b:Jvim_maxline = line('$')
     if !(&l:modifiable) || (b:Jvim_maxline == 1)
@@ -25,7 +29,7 @@ function! g:UpdateMetaData()
     endif
 
     if (b:Jvim_maxline > g:Jvim#metadata#maxSearch)
-        let b:Jvim_maxline = g:Jvim#metadata#MaxSearch
+        let b:Jvim_maxline = g:Jvim#metadata#maxSearch
     endif
 
     let l:winview = winsaveview()

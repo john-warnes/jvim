@@ -3,8 +3,8 @@
 "=================================================================
 " vim:foldmarker={,}:foldmethod=marker:
 "=================================================================
-"  Revision  665
-"  Modified  Sunday, 10 December 2017
+"  Revision  667
+"  Modified  Monday, 11 December 2017
 "=================================================================
 scriptencoding utf-8
 setlocal keywordprg=:help
@@ -207,5 +207,5 @@ execute 'source ' . s:path . '/' . 'quickfix.source'
 execute 'source ' . s:path . '/' . 'testing.source'
 
 
-" Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie    
+" Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie
 " EOF
