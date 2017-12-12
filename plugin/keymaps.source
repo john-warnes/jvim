@@ -161,6 +161,13 @@ nnoremap <silent> <leader>/ :nohlsearch<CR>
 nnoremap <silent> <C-n> :nohlsearch<CR>
 "} ===
 
+" Actions on current file ========= {
+
+" Run current file
+nnoremap <leader>r :!%:p<CR>    
+
+"}
+
 " Better Saving and Quiting ========== {
 cnoremap W w
 cnoremap W! w!

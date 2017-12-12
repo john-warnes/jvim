@@ -27,8 +27,9 @@ function! Jvim_Comment()
     elseif index(['python','sh'],&filetype)>=0
         let s:c='#'
     else
-        echom "Jvim#comment -> &filetype not supported"
-        return
+        let s:c='#'
+        " echom "Jvim#comment -> &filetype not supported"
+        " return
     endif
     exe "normal! ^i" . s:c
 endfunction
@@ -44,8 +45,8 @@ function! Jvim_Uncomment() range
         let s:c='#'
     else
         let s:c='#'
-        "echom "Jvim#comment -> &filetype not supported"
-        "return
+        " echom "Jvim#comment -> &filetype not supported"
+        " return
     endif
     :silent! exe ':'.a:firstline.','.a:lastline.'s/\(^\s*\)'. s:c . '/\1/g'
 endfunction
@@ -60,8 +61,9 @@ function! Jvim_CommentToggle()
     elseif index(['python','sh'],&filetype)>=0
         let s:c='#'
     else
-        echom "Jvim#comment -> &filetype not supported"
-        return
+        let s:c='#'
+        " echom "Jvim#comment -> &filetype not supported"
+        " return
     endif
 
     if getline('.') =~ "^ *".s:c
