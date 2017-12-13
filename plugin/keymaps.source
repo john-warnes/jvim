@@ -164,9 +164,10 @@ nnoremap <silent> <C-n> :nohlsearch<CR>
 " Actions on current file ========= {
 
 " Run current file
-nnoremap <leader>r :!%:p<CR>    
-
-"}
+nnoremap <leader>r :!%:p<CR>:echom "running %:p"<CR>
+nnoremap <leader>e :!chmod +x %:p<CR>:echom "chmod +x %:p"<CR>
+nnoremap <leader>E :!chmod -x %:p<CR>:echom "chmod -x %:p"<CR>
+"} ===
 
 " Better Saving and Quiting ========== {
 cnoremap W w
