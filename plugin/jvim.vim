@@ -3,8 +3,8 @@
 "=================================================================
 " vim:foldmarker={,}:foldmethod=marker:
 "=================================================================
-"  Revision  667
-"  Modified  Monday, 11 December 2017
+"  Revision  672
+"  Modified  Wednesday, 13 December 2017
 "=================================================================
 scriptencoding utf-8
 setlocal keywordprg=:help
@@ -59,6 +59,8 @@ let g:Jvim#comment#enable   = get(g:, 'Jvim#comment#enable', 1) " Allow comment 
 " Debuging and testing
 let g:Jvim#testing#enable   = get(g:, 'Jvim#testing#enable', 0) " enable testing area
 let g:Jvim#debug#enable     = get(g:, 'Jvim#debug#enable'  , 0) " enable debug area
+
+let g:Jvim#vimstatus#enable = get(g:, 'g:Jvim#vimstatus#enable', 1) " enable vimstatus status line
 "} ===
 
 
@@ -205,6 +207,14 @@ execute 'source ' . s:path . '/' . 'quickfix.source'
 " Testing
 "=================================================================
 execute 'source ' . s:path . '/' . 'testing.source'
+
+
+"=================================================================
+" Builtin status line
+"=================================================================
+execute 'source ' . s:path . '/' . 'vimstatus.source'
+
+"set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
 
 
 " Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie
