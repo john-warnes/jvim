@@ -18,7 +18,8 @@ let g:Jvim#vimstatus#loaded=1
 " vimstatus
 "=================================================================
 function! GitBranch()
-  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+    :let &readonly = &readonly
+    return system(expand("%:p:h/")."git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
 endfunction
 
 function! StatuslineGit()
@@ -26,47 +27,97 @@ function! StatuslineGit()
   return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
 endfunction
 
-set statusline=
-set statusline+=%#PmenuSel#
-set statusline+=%{StatuslineGit()}
-set statusline+=%#LineNr#
-set statusline+=\ %f
-set statusline+=%m\
-set statusline+=%=
-set statusline+=%#CursorColumn#
-set statusline+=\ %y
-set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-set statusline+=\[%{&fileformat}\]
-set statusline+=\ %p%%
-set statusline+=\ %l:%c
-set statusline+=\ 
+"set statusline=
+"set statusline+=%#PmenuSel#
+"set statusline+=%{StatuslineGit()}
+"set statusline+=%#LineNr#
+"set statusline+=\ %f
+"set statusline+=%m\
+"set statusline+=%=
+"set statusline+=%#CursorColumn#
+"set statusline+=\ %y
+"set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+"set statusline+=\[%{&fileformat}\]
+"set statusline+=\ %p%%
+"set statusline+=\ %l:%c
+"set statusline+=\ 
 
 " returns a string <branch/XX> where XX corresponds to the git status
 " (for example "<master/ M>")
-function CurrentGitStatus()
-    let gitoutput = split(system('git status --porcelain -b '.shellescape(expand('%')).' 2>/dev/null'),'\n')
-    if len(gitoutput) > 0
-        let b:gitstatus = strpart(get(gitoutput,0,''),3) . '/' . strpart(get(gitoutput,1,'  '),0,2)
+function! CurrentGitStatus()
+    let l:gitoutput = split(system('git status --porcelain -b '.shellescape(expand('%')).' 2>/dev/null'),'\n')
+    if len(l:gitoutput) > 0
+        let b:gitstatus = strpart(get(l:gitoutput,0,''),3) . '/' . strpart(get(l:gitoutput,1,'  '),0,2)
     else
         let b:gitstatus = ''
     endif
-    echom b:gitstatus
 endfunc
 
-function! GitBranch()
-    return system('git branch 2> /dev/null | sed -e "/^[^*]/d" -e "s/* \(.*\)/\1/"')
+"function! GitBranch()
+    ":let &readonly = &readonly
+    "return system('git branch 2> /dev/null | sed -e "/^[^*]/d" -e "s/* \(.*\)/\1/"')
+"endfunc
+
+function! VarExists(var, val)
+    if exists(a:var) | return a:val | else | return '' | endif
+endfunction
+
+function! g:ModeLong()
+    let s:Mode=mode()
+    let s:ret=''
+
+    if s:Mode=='n'
+"        let s:ret.='%#GruvboxRedSign#'
+        let &readonly = &readonly
+        let s:ret.=' Normal'
+        return s:ret
+    endif
+
+    if s:Mode=='i'
+        let &readonly = &readonly
+        return ' Insert'
+    endif
+
+    return " <<< " . mode() . " >>>"
+
+    " let s:GetneMode=mode()
+  "  if s:StatuslineMode == 'n'
+       " hi Statusline ctermbg=blue guibg=blue
+  " elseif s:StatuslineMode == 'i'
+  "      hi Statusline ctermbg=red guibg=red
+  "  endif
 endfunc
 
 "autocmd BufEnter,BufWritePost * call CurrentGitStatus()
 
 " example of use in the status line:
 
-"set stl=%f\ %(<%{b:gitstatus}>%)
+"set stil=%f\ %(<%{b:gitstatus}>%)
 
 
 "nnoremap <C-y> :call g:UpdateMetaData()<CR>
 
-if (g:Jvim#vimstatus#enable)
-"    set statusline=MODE\ -\ %{GitBranch()}\ -\ %F%m%r%h%w\ %y\ %=[%{&ff}]\ -\ %p%%\ %.4l/%.4L\ l\ :%04v
-endif
+exec 'hi Jvim_vimstatus_warrning guifg=red ctermfg=red' .
+            \' guibg=' . synIDattr(synIDtrans(hlID('StatusLine')), 'bg', 'gui') .
+            \' ctermbg=' . synIDattr(synIDtrans(hlID('StatusLine')), 'bg', 'cterm')
 
+
+if (g:Jvim#vimstatus#enable)
+    set laststatus=2                 " Always show the status line
+    set showtabline=2                " Always show tabline, even if only one tab
+    set noshowmode                   " Text
+
+    set statusline=%*                                              " Clear any old statusline
+    set statusline+=%6{g:ModeLong()}\ %*                           " Mode
+    set statusline+=%#StatusLineNC#%(\ [%H%q%W]\ %)%*              " [help], [Quickfix List], [Location List], [Preview]
+    set statusline+=%{GitBranch()}                                 " Git Branch Name
+    set statusline+=%f\                                            " Relative filename & modified (%F Fullpatth)
+    set statusline+=%#Jvim_vimstatus_warrning#%(\ %(%M%R%)%)                " modified,r or Readonly ,RO
+    "set statusline+=%#GruvboxRedSign#%(\ %(%M%R%)%)                " modified,r or Readonly ,RO
+    set statusline+=%#StatusLineNC#\ %y\                           " File type [vim] [c] [python]
+    set statusline+=%=                                             " Right Justification marker
+    set statusline+=\ %#StatusLineNC#[%{&ff}]\ %*                  " Line endings [unix]
+    set statusline+=\ %-3.5l"\ue0a0"                               " Line number %L for total lines
+    set statusline+=:%-3.5v                                        " Col number
+    set statusline+=\ %p%%\                                        " File Present
+endif
