@@ -77,6 +77,11 @@ function! g:ModeLong()
         let &readonly = &readonly
         return ' Insert'
     endif
+    
+    if s:Mode=='c'
+        let &readonly = &readonly
+        return 'Command'
+    endif
 
     return " <<< " . mode() . " >>>"
 
