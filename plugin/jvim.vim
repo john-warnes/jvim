@@ -3,12 +3,15 @@
 "=================================================================
 " vim:foldmarker={,}:foldmethod=marker:
 "=================================================================
-"  Revision  672
-"  Modified  Wednesday, 13 December 2017
+"  Revision  678
+"  Modified  Saturday, 16 December 2017
 "=================================================================
+
 scriptencoding utf-8
 setlocal keywordprg=:help
 "=================================================================
+
+"noremap <esc>^[ <esc>^[
 
 
 "=================================================================
@@ -149,6 +152,7 @@ set modelines=5
 "   3: Get the folder of the resolved absolute filer
 let s:path = fnamemodify(resolve(expand('<sfile>:p')), ':h')
 
+
 "=================================================================
 " Vim options
 "=================================================================
@@ -214,8 +218,8 @@ execute 'source ' . s:path . '/' . 'testing.source'
 "=================================================================
 execute 'source ' . s:path . '/' . 'vimstatus.source'
 
-"set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
 
+"set statusline=%F%m%r%h%w[%L][%{&ff}]%y[%p%%][%04l,%04v]
 
 " Testing Comment != <= >= x^2 y^3 1^2 pi 44^2 pie
 " EOF

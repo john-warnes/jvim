@@ -40,16 +40,10 @@ hi Cursor ctermfg=235 ctermbg=223 guifg=#282828 guibg=#ebdbb2 "cterm=reverse gui
 set gcr=a:block-blinkon0
 
 " modes
-set gcr+=v:
-set gcr+=v:block-blinkon0-Cursor
+set gcr+=v:block-blinkon0
 set gcr+=o:
-"set gcr+=n-c:
-"set gcr+=i-ci:ver-blinkwait100-blinkon200-blinkoff100
-"set gcr+=r-cr:hor30-blinkwait100-blinkon200-blinkoff100
 
 " modes with colors
-"set gcr+=v:JStatus_Visual
-"set gcr+=o:
 set gcr+=n-c:block-Cursor
 set gcr+=i-ci:ver25-blinkon10-JStatus_Insert
 set gcr+=r-cr:hor30-blinkon10-JStatus_Replace
@@ -59,12 +53,27 @@ set gcr+=r-cr:hor30-blinkon10-JStatus_Replace
 "=================================================================
 " vimstatus
 "=================================================================
-
-
-function! StatuslineGit()
-    let l:branchname = GitBranch()
-    return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+function! GitBranch()
+    let l:branch = system("git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'")
+    let l:branch = substitute(strpart(branch, 2), '\n', '', '')
+    if l:branch != ''
+		return "\ue0a0 ".l:branch.' '
+	endif
+	return l:branch
 endfunction
+
+"function! StatuslineGit()
+"  let l:branchname = GitBranch()
+"  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+"endfunction
+
+"function! GitInfo()
+"  let git = fugitive#head()
+"  if git != ''
+"    return '? '.fugitive#head()
+"  else
+"    return ''
+"endfunction
 
 
 " returns a string <branch/XX> where XX corresponds to the git status
@@ -77,6 +86,9 @@ function! CurrentGitStatus()
         let b:gitstatus = ''
     endif
 endfunc
+autocmd BufEnter,BufWritePost * call CurrentGitStatus()
+
+" ###############################################################
 
 
 function! Head(val, head)
@@ -98,16 +110,14 @@ function! HeadTail(val, head, tail)
     return Tail( Head(a:val, a:head), a:tail )
 endfunction
 
-function! GitBranch()
-    return HeadTail(system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'"),"\ue0a0 ",' ')
-endfunction
 
-function! VarExists(var, val)
-    if exists(a:var) | return a:val | else | return '' | endif
+function! BufVarExists(var, val)
+    "if exists(a:var) | return a:val | else | return '' | endif
+    return get(b:, a:var, a:val)
 endfunction
 
 function! SyntaxItem()
-  return BraceWrap(synIDattr(synID(line("."),col("."),1),"name"))
+    return BraceWrap(synIDattr(synID(line("."),col("."),1),"name"))
 endfunction
 
 function! JvimLine()
@@ -132,20 +142,21 @@ function! JvimLine()
         let l:line="%#WarningMsg#   ".l:M."     "
     endif
 
-    let l:line .= ' %* '                             " Colors Reset
-    
+    let l:line .= ' %* '                  " Colors Reset
     let l:line .= '%y%( [%q%W]%) '        " [help], [Quickfix List], [Location List], [Preview]
     let l:line .= GitBranch()             " Git Branch Name
+    "let l:line .= '[' . b:gitstatus . '] '
+
     let l:line .= '%f'                    " Relative filename & modified (%F Fullpatth)
     let l:line .= '%#JStatus_Red#'        " Color Red
     let l:line .= &readonly?'RO':''       " Readonly RO
     let l:line .= &mod?'+':' '            " modified +
     let l:line .= ' %#StatusLineNC# '     " Colors StatusLineNC
-    let l:line .= '%y '                   " File type [vim] [c] [python]
+    "let l:line .= '%y '                   " File type [vim] [c] [python]
     let l:line .= '[%{&ff}]'              " Line endings [unix]
     let l:line .=  '%='                    " Right Justification marker
-
-    let l:line .= SyntaxItem()            " Syntax highlight group under cursor
+    let l:line .=  '[[%{v:register}]]'
+"    let l:line .= SyntaxItem()            " Syntax highlight group under cursor
     let l:line .= &spell?' ✎'.&spelllang : '' 
     
     let l:line .= ' %* '                    " Colors Reset
