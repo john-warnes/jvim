@@ -31,7 +31,7 @@ function! Jvim_Comment()
         " echom "Jvim#comment -> &filetype not supported"
         " return
     endif
-    exe "normal! ^i" . s:c
+    exe "normal! 0i" . s:c
 endfunction
 
 
@@ -73,7 +73,7 @@ function! Jvim_CommentToggle()
     else
         "echom "not"
         call Jvim_Comment()
-        "exe "normal! ^i" . s:c
+        "exe "normal! 0i" . s:c
     endif
 
 endfunction

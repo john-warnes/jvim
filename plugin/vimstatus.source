@@ -36,83 +36,104 @@ hi Cursor ctermfg=235 ctermbg=223 guifg=#282828 guibg=#ebdbb2 "cterm=reverse gui
 " Cursor Shape and color
 "=================================================================
 
+if !has('nvim')
+   let &t_SI = "\e[6 q"
+   let &t_EI = "\e[2 q"
+
+   let &t_SR = "\e[4 q"
+endif
+
+"Ps = 0  -> blinking block.
+"Ps = 1  -> blinking block (default).
+"Ps = 2  -> steady block.
+"Ps = 3  -> blinking underline.
+"Ps = 4  -> steady underline.
+"Ps = 5  -> blinking bar (xterm).
+"Ps = 6  -> steady bar (xterm).
+
+set guicursor=n-v-c:block-Cursor/lCursor
+set guicursor=ve:ver35-Cursor,
+set guicursor=o:hor50-Cursor,
+set guicursor=i-ci:ver25-Cursor/lCursor,
+set guicursor=r-cr:hor20-Cursor/lCursor,
+set guicursor=sm:block-Cursor-blinkwait175-blinkoff150-blinkon175
+
+
 " default
-set gcr=a:block-blinkon0
+
+"set gcr=a:block-blinkon0
 
 " modes
-set gcr+=v:block-blinkon0
-set gcr+=o:
+"set gcr+=v:block-blinkon0
+"set gcr+=o:
 
 " modes with colors
-set gcr+=n-c:block-Cursor
-set gcr+=i-ci:ver25-blinkon10-JStatus_Insert
-set gcr+=r-cr:hor30-blinkon10-JStatus_Replace
+"set gcr+=n-c:block-Cursor
+"set gcr+=i-ci:ver25-blinkon10-JStatus_Insert
+"set gcr+=r-cr:hor30-blinkon10-JStatus_Replace
 
+
+"=================================================================
+" Diffrent Status Line for active / inactive
+"=================================================================
+
+"function! s:RefreshStatus()
+  "for nr in range(1, winnr('$'))
+    "call setwinvar(nr, '&statusline', '%!Status(' . nr . ')')
+  "endfor
+"endfunction
+"
+"augroup status
+  "autocmd!
+  "autocmd VimEnter,WinEnter,BufWinEnter * call <SID>RefreshStatus()
+"augroup END
 
 
 "=================================================================
 " vimstatus
 "=================================================================
 function! GitBranch()
-    let l:branch = system("git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'")
+    "echom expand('%')
+    :silent let l:branch = system("git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'")
+    "let l:branch = system("git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'")
     let l:branch = substitute(strpart(branch, 2), '\n', '', '')
     if l:branch != ''
-		return "\ue0a0 ".l:branch.' '
-	endif
-	return l:branch
-endfunction
-
-"function! StatuslineGit()
-"  let l:branchname = GitBranch()
-"  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
-"endfunction
-
-"function! GitInfo()
-"  let git = fugitive#head()
-"  if git != ''
-"    return '? '.fugitive#head()
-"  else
-"    return ''
-"endfunction
-
-
-" returns a string <branch/XX> where XX corresponds to the git status
-" (for example "<master/ M>")
-function! CurrentGitStatus()
-    let l:gitoutput = split(system('git status --porcelain -b '.shellescape(expand('%')).' 2>/dev/null'),'\n')
-    if len(l:gitoutput) > 0
-        let b:gitstatus = strpart(get(l:gitoutput,0,''),3) . '/' . strpart(get(l:gitoutput,1,'  '),0,2)
-    else
-        let b:gitstatus = ''
+        return l:branch." \ue0a0 "
     endif
-endfunc
-autocmd BufEnter,BufWritePost * call CurrentGitStatus()
-
-" ###############################################################
-
-
-function! Head(val, head)
-    if a:val=='' | return '' | else | return a:head.a:val | endif
+    return l:branch
 endfunction
 
-
-function! Tail(val, tail)
-    if a:val=='' | return '' | else | return a:val.a:tail | endif
+function! SetGitBranch()
+    let b:GitBranchVar=GitBranch()
+    let &ro=&ro
 endfunction
 
+function! EchoGitStatus()
+    echo b:GitBranchVar
+endfunction
+
+"autocmd BufEnter,BufWritePost,BufWinEnter
+autocmd BufEnter,VimEnter,BufWinEnter * call SetGitBranch()
+ 
+
+"=================================================================
+" Helper functions
+"=================================================================
+"function! Head(val, head)
+"    if a:val=='' | return '' | else | return a:head.a:val | endif
+"endfunction
+"
+"function! Tail(val, tail)
+"    if a:val=='' | return '' | else | return a:val.a:tail | endif
+"endfunction
 
 function! BraceWrap(val)
     if a:val=='' | return '' | else | return '['.a:val.']' | endif
 endfunction
 
-
-function! HeadTail(val, head, tail)
-    return Tail( Head(a:val, a:head), a:tail )
-endfunction
-
-
 function! BufVarExists(var, val)
     "if exists(a:var) | return a:val | else | return '' | endif
+    let &ro=&ro
     return get(b:, a:var, a:val)
 endfunction
 
@@ -120,6 +141,10 @@ function! SyntaxItem()
     return BraceWrap(synIDattr(synID(line("."),col("."),1),"name"))
 endfunction
 
+
+"=================================================================
+" VimStatus Line Function
+"=================================================================
 function! JvimLine()
     let l:M=mode()
 
@@ -142,31 +167,36 @@ function! JvimLine()
         let l:line="%#WarningMsg#   ".l:M."     "
     endif
 
-    let l:line .= ' %* '                  " Colors Reset
-    let l:line .= '%y%( [%q%W]%) '        " [help], [Quickfix List], [Location List], [Preview]
-    let l:line .= GitBranch()             " Git Branch Name
-    "let l:line .= '[' . b:gitstatus . '] '
 
-    let l:line .= '%f'                    " Relative filename & modified (%F Fullpatth)
+    let l:line .= ' %* '                  " Colors Reset
+"    let l:line .= GitBranch()             " Git Branch Name
+    let l:line .= b:GitBranchVar          " Git Branch Name
+
+    let l:line .= '%f'                " Relative filename & modified (%F Fullpatth)
+    let l:line .= '%<'                    " Trim line here if to long
     let l:line .= '%#JStatus_Red#'        " Color Red
-    let l:line .= &readonly?'RO':''       " Readonly RO
-    let l:line .= &mod?'+':' '            " modified +
-    let l:line .= ' %#StatusLineNC# '     " Colors StatusLineNC
-    "let l:line .= '%y '                   " File type [vim] [c] [python]
+    let l:line .= "%{&readonly?'RO':''}"  " Readonly RO
+    let l:line .= "%{&mod?'+':''}"       " modified +
+    let l:line .= '%* %#StatusLineNC# '      " Colors StatusLineNC
+    let l:line .= '%y%( [%q%W]%) '        " [help], [Quickfix List], [Location List], [Preview]
     let l:line .= '[%{&ff}]'              " Line endings [unix]
-    let l:line .=  '%='                    " Right Justification marker
-    let l:line .=  '[[%{v:register}]]'
+    let l:line .=  '%='                   " Right Justification marker
+"    let l:line .=  '[[%{v:register}]]'
 "    let l:line .= SyntaxItem()            " Syntax highlight group under cursor
-    let l:line .= &spell?' ✎'.&spelllang : '' 
-    
-    let l:line .= ' %* '                    " Colors Reset
-    let l:line .= '%-3.5l '."\ue0a0".' ' " Line number %L for total lines
-    let l:line .= ':%-3.5v'               " Col number
-    let l:line .= ' %p%%  %*'                " File Present
+    let l:line .= "%{&spell?' ✎'.&spelllang : ''}"
+
+    let l:line .= ' %* '                  " Colors Reset
+    let l:line .= '%3l'                 " Line number %L for total lines
+    let l:line .= ',%-3v'               " Col number
+    let l:line .= ' %p%% %*'             " File Present
+    let &ro=&ro
     return l:line
 endfunc
 
 
+"=================================================================
+" VimStatus enable
+"=================================================================
 if (g:Jvim#vimstatus#enable)
     set laststatus=2                 " Always show the status line
     set showtabline=2                " Always show tabline, even if only one tab
