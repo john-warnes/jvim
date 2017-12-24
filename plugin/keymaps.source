@@ -92,6 +92,7 @@ function! JvimSplitWin()
         :split
         normal! gf
         :wincmd x
+        :wincmd j
         set nosplitbelow
     else
         echom "Horz"
@@ -99,6 +100,7 @@ function! JvimSplitWin()
         :vsplit
         normal! gf
         :wincmd x
+        :wincmd l
         "set nosplitright
     endif
 endfunction
@@ -164,9 +166,11 @@ nnoremap <silent> <C-n> :nohlsearch<CR>
 " Actions on current file ========= {
 
 " Run current file
-nnoremap <leader>r :!%:p<CR>:echom "running %:p"<CR>
-nnoremap <leader>e :!chmod +x %:p<CR>:echom "chmod +x %:p"<CR>
-nnoremap <leader>E :!chmod -x %:p<CR>:echom "chmod -x %:p"<CR>
+nnoremap <leader>r :!clear;python3 %<CR>
+nnoremap <leader>i :!clear;python3 -i %<CR>
+nnoremap <F7> Oimport IPython; IPython.embed()\<ESC>
+"nnoremap <leader>e :!chmod +x %:p<CR>:echom "chmod +x %:p"<CR>
+"nnoremap <leader>E :!chmod -x %:p<CR>:echom "chmod -x %:p"<CR>
 "} ===
 
 " Better Saving and Quiting ========== {
