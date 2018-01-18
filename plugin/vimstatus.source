@@ -170,8 +170,9 @@ function! JvimLine()
 
     let l:line .= ' %* '                  " Colors Reset
 "    let l:line .= GitBranch()             " Git Branch Name
-    let l:line .= b:GitBranchVar          " Git Branch Name
-
+    if exists('b:GitBranchVar')
+        let l:line .= b:GitBranchVar          " Git Branch Name
+    endif
     let l:line .= '%f'                " Relative filename & modified (%F Fullpatth)
     let l:line .= '%<'                    " Trim line here if to long
     let l:line .= '%#JStatus_Red#'        " Color Red
