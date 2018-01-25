@@ -201,6 +201,7 @@ nnoremap <S-end> v$<Left>
 
 " Commands ============ {
 
+command Tabnew :tabnew a:000
 command JvimEdit :tabnew ~/.vimrc | :tabnew ~/.vim/bundle/jvim/plugin/jvim.vim
 command Date normal "=strftime("%a %d %b %Y")<CR>P
 command Time normal "=strftime("%T")<CR>P
